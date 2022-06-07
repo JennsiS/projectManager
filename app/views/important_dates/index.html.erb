@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Important dates</h1>
+
+<div id="important_dates">
+  <% @important_dates.each do |important_date| %>
+    <%= render important_date %>
+    <p>
+      <%= link_to "Show this important date", important_date %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New important date", new_important_date_path %>

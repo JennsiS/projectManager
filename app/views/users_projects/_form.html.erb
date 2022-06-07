@@ -1,0 +1,32 @@
+<%= form_with(model: users_project) do |form| %>
+  <% if users_project.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(users_project.errors.count, "error") %> prohibited this users_project from being saved:</h2>
+
+      <ul>
+        <% users_project.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :user_id, style: "display: block" %>
+    <%= form.text_field :user_id %>
+  </div>
+
+  <div>
+    <%= form.label :project_id, style: "display: block" %>
+    <%= form.text_field :project_id %>
+  </div>
+
+  <div>
+    <%= form.label :rol_project_user, style: "display: block" %>
+    <%= form.text_field :rol_project_user %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

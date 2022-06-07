@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  resources :projects_phases
+  resources :users_projects
+  resources :users_roles
+  resources :important_dates
   resources :phases
   resources :projects
   resources :roles

@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @important_date %>
+
+<div>
+  <%= link_to "Edit this important date", edit_important_date_path(@important_date) %> |
+  <%= link_to "Back to important dates", important_dates_path %>
+
+  <%= button_to "Destroy this important date", @important_date, method: :delete %>
+</div>

@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Users roles</h1>
+
+<div id="users_roles">
+  <% @users_roles.each do |users_role| %>
+    <%= render users_role %>
+    <p>
+      <%= link_to "Show this users role", users_role %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New users role", new_users_role_path %>
