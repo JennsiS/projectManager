@@ -1,5 +1,6 @@
 class ImportantDatesController < ApplicationController
   before_action :set_important_date, only: %i[ show edit update destroy ]
+  before_action :authenticate_user!
 
   # GET /important_dates or /important_dates.json
   def index

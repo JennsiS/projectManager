@@ -1,5 +1,6 @@
 class ProjectsPhasesController < ApplicationController
   before_action :set_projects_phase, only: %i[ show edit update destroy ]
+  before_action :authenticate_user!
 
   # GET /projects_phases or /projects_phases.json
   def index

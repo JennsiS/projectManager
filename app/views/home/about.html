@@ -1,1 +1,57 @@
-<h1>About us</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prueba vue</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+</head>
+<body>
+    <main id="app">
+        <div>
+            <input type="text" v-model="nuevoElemento">
+            <p>{{nuevoElemento}}</p>
+            <button type="button" @click="agregarElemento(nuevoElemento)">Agregar</button>
+        </div>
+        <ul>
+            <li v-for="elemento in elementos" @click = "eliminarElemento(elemento)">
+                {{elemento}}
+            </li>
+        </ul>
+
+    </main>
+
+    <script>
+        new Vue({
+        el: "#app",
+        data: {
+            nuevoElemento: "",
+            elementos: ["1","2"], 
+            show: false
+        },
+        // mounted(){
+        //     // setTimeout(()=>{
+        //     //     this.eliminarElemento(elemento)
+        //     // }, 3000)
+        // },
+        methods: {
+            eliminarElemento(elementoEliminar){
+                setTimeout(()=>{
+                    index = this.elementos.indexOf(elementoEliminar)
+                    alert(index)
+                    this.elementos.splice(index,1)
+                    alert(this.elementos)
+            }, 3000)   
+            },
+
+            agregarElemento(elementoAgregar){
+                this.elementos.push(elementoAgregar)
+            }
+        }
+    })
+
+    </script>
+</body>
+
+</html>

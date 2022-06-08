@@ -1,5 +1,6 @@
 class RolesController < ApplicationController
   before_action :set_role, only: %i[ show edit update destroy ]
+  before_action :authenticate_user!
 
   # GET /roles or /roles.json
   def index
@@ -21,6 +22,7 @@ class RolesController < ApplicationController
 
   # POST /roles or /roles.json
   def create
+
     @role = Role.new(role_params)
 
     respond_to do |format|
