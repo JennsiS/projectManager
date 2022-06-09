@@ -6,5 +6,7 @@ class User < ApplicationRecord
   has_many :roles, through: :users_roles
   has_many :projects, through: :users_projects
   has_many :phases, through: :projects_phases
+  #validates :name, presence: true
+  validates :email, presence: true, uniqueness: {case_sensitive: false}
 
 end
