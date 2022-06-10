@@ -1,7 +1,7 @@
 <template>
   <HeaderNav />
   <button class="button is-success is-outlined add-button" v-on:click="">
-    Add
+    <router-link :to="{ name: 'CreateProject' }"> Add </router-link>
   </button>
   <TableProjects />
 </template>
@@ -13,6 +13,7 @@ import HeaderNav from "@/components/HeaderNav.vue";
 
 <style scoped>
 .add-button {
-  margin-top: 5%;
+  margin-top: 3%;
+  text-decoration: none;
 }
 </style>

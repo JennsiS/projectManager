@@ -24,4 +24,3 @@ app.component("font-awesome-icon", FontAwesomeIcon);
 app.mount("#app");
 
 import "bootstrap/dist/js/bootstrap.js";
-

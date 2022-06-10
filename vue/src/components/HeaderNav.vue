@@ -24,9 +24,12 @@
 
     <div id="navbarBasicExample" class="navbar-menu">
       <div class="navbar-start">
-        <a class="navbar-item"> Home </a>
+        <router-link :to="{ name: 'dashboard_path' }">
+          All projects
+        </router-link>
+        <!-- <a class="navbar-item"> All projects </a> -->
 
-        <a class="navbar-item"> Documentation </a>
+        <!-- <a class="navbar-item"> Documentation </a>
 
         <div class="navbar-item has-dropdown is-hoverable">
           <a class="navbar-link"> More </a>
@@ -38,7 +41,7 @@
             <hr class="navbar-divider" />
             <a class="navbar-item"> Report an issue </a>
           </div>
-        </div>
+        </div> -->
       </div>
 
       <div class="navbar-end">
@@ -58,5 +61,9 @@
 <style scoped>
 .logo {
   display: block;
+}
+
+div a {
+  text-decoration: none;
 }
 </style>

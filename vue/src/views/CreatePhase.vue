@@ -1,5 +1,6 @@
 <template>
   <div>
+    <ProjectOptions />
     <form class="box">
       <div class="field">
         <label class="label">Name</label>
@@ -46,8 +47,12 @@
 <script>
 import "bulma-calendar/dist/css/bulma-calendar.min.css";
 import bulmaCalendar from "bulma-calendar/dist/js/bulma-calendar.min.js";
+import ProjectOptions from "../components/ProjectOptions.vue";
 
 export default {
+  components: {
+    ProjectOptions,
+  },
   data() {
     return {
       startDate: new Date(),

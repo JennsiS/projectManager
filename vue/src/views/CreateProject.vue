@@ -36,23 +36,33 @@
         <div class="control">
           <div class="select">
             <select id="stateSelection" @change="getState">
-              <option v-for="state in states" v-bind:value="state">
+              <option
+                v-for="state in states"
+                v-bind:value="state"
+                v-bind:key="state"
+              >
                 {{ state }}
               </option>
-              <!-- <option value="Initiated">Initiated</option>
-              <option value="Pause">Pause</option>
-              <option value="Beta">Beta</option> -->
             </select>
           </div>
         </div>
       </div>
+
+        <!-- <div>
+    <Multiselect
+      v-model="value"
+      :options="options"
+    />
+  </div> -->
+      
 
       <div class="field is-grouped">
         <div class="control">
           <button class="button is-link">Submit</button>
         </div>
         <div class="control">
-          <button class="button is-link is-light">Cancel</button>
+          <button class="button is-link is-light">
+            <router-link :to="{ name: 'dashboard_path' }"> Cancel </router-link></button>
         </div>
       </div>
     </form>
@@ -62,13 +72,24 @@
 <script>
 import "bulma-calendar/dist/css/bulma-calendar.min.css";
 import bulmaCalendar from "bulma-calendar/dist/js/bulma-calendar.min.js";
+// import Multiselect from '@vueform/multiselect';
+
 
 export default {
+  components:{
+    //Multiselect,
+  },
   data() {
     return {
       startDate: new Date(),
       endDate: new Date(),
       states: ["Beta", "Initiated", "Pause"],
+      // value: [],
+      // options: [
+      //       { value: "batman", label: "Batman" },
+      //       { value: "robin", label: "Robin" },
+      //       { value: "joker", label: "Joker" }
+      // ],
     };
   },
   mounted() {
@@ -104,4 +125,4 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style src="@vueform/multiselect/themes/default.css"></style>
