@@ -1,18 +1,13 @@
-<script setup>
-import { RouterView } from "vue-router";
-import HeaderNav from "@/components/HeaderNav.vue";
-</script>
-
 <template>
-  <header>
-    <HeaderNav />
-  </header>
-
   <RouterView />
 </template>
 
+<script setup>
+import { RouterView } from "vue-router";
+</script>
+
 <style>
-/*@import "@/assets/base.css";*/
+@import "@/assets/application.scss";
 @import url("https://fonts.googleapis.com/css2?family=Nunito&display=swap");
 
 #app {
