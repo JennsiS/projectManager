@@ -1,7 +1,4 @@
 import { createRouter, createWebHistory } from "vue-router";
-//import HomeView from "../views/HomeView.vue";
-import DashboardIndex from "../views/dashboard/Index.vue";
-import axios from "axios";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -9,15 +6,7 @@ const router = createRouter({
     {
       path: "/",
       name: "dashboard_path",
-      component: DashboardIndex,
-    },
-    {
-      path: "/about",
-      name: "about",
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import("../views/AboutView.vue"),
+      component: () => import("../views/DashboardProjects.vue"),
     },
     {
       path: "/login",
@@ -58,6 +47,22 @@ const router = createRouter({
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import("../views/AllPhases.vue"),
+    },
+    {
+      path: "/RoadMap",
+      name: "RoadMap",
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import("../views/RoadMap.vue"),
+    },
+    {
+      path: "/CreateUser",
+      name: "CreateUser",
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import("../views/CreateUser.vue"),
     },
   ],
 });

@@ -5,7 +5,7 @@ import HeaderNav from "../components/HeaderNav.vue";
 
 <template>
   <main>
-    <HeaderNav />
+    <HeaderNav/>
     <TableProjects />
   </main>
 </template>

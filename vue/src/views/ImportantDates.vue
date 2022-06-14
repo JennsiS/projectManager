@@ -303,13 +303,6 @@ export default {
     this.newItemEndDate = CalendarMath.isoYearMonthDay(CalendarMath.today());
   },
   methods: {
-    periodChanged() {
-      // range, eventSource) {
-      // Demo does nothing with this information, just including the method to demonstrate how
-      // you can listen for changes to the displayed range and react to them (by loading items, etc.)
-      //console.log(eventSource)
-      //console.log(range)
-    },
     thisMonth(d, h, m) {
       const t = new Date();
       return new Date(t.getFullYear(), t.getMonth(), d, h || 0, m || 0);
@@ -355,6 +348,7 @@ export default {
       this.message = "You added a calendar item!";
     },
   },
+  // TODO: Make a POST to database in table important_dates
 };
 </script>
 

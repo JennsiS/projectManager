@@ -66,14 +66,7 @@ export default {
     };
   },
   methods: {
-    getProjectPage(projectId) {
-      //alert(projectId);
-      //alert(this.projects[projectId].name);
-      // let project = this.projects.filter(allProjects => allProjects.id === 1);
-      //alert(project.id);
-      let name = this.projects[projectId - 1].name;
-      alert("Cambiando a proyecto " + name);
-    },
+    //TODO: Make a GET to phases and project phases to show all phases from a project
   },
 };
 </script>

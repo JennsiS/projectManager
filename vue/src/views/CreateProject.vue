@@ -1,17 +1,28 @@
 <template>
   <div>
+    <HeaderNav />
     <form class="box">
       <div class="field">
         <label class="label">Title</label>
         <div class="control">
-          <input class="input" type="text" placeholder="Project title" />
+          <input
+            class="input"
+            type="text"
+            placeholder="Project title"
+            id="projectTitle"
+          />
         </div>
       </div>
 
       <div class="field">
         <label class="label">Description</label>
         <div class="control">
-          <input class="input" type="text" placeholder="Project description" />
+          <input
+            class="input"
+            type="text"
+            placeholder="Project description"
+            id="projectDescription"
+          />
         </div>
       </div>
 
@@ -48,21 +59,41 @@
         </div>
       </div>
 
-        <!-- <div>
-    <Multiselect
-      v-model="value"
-      :options="options"
-    />
-  </div> -->
-      
+      <div class="field">
+        <label class="label">Project Manager</label>
+        <div class="control">
+          <div>
+            <Multiselect v-model="valuePM" :options="users" />
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label">Team</label>
+        <div class="control">
+          <div>
+            <Multiselect
+              v-model="valueTeam"
+              :options="users"
+              mode="tags"
+              :close-on-select="false"
+              :searchable="true"
+              :create-option="true"
+            />
+          </div>
+        </div>
+      </div>
 
       <div class="field is-grouped">
         <div class="control">
-          <button class="button is-link">Submit</button>
+          <button class="button is-link" v-on:click="createNewProject()">
+            Create
+          </button>
         </div>
         <div class="control">
           <button class="button is-link is-light">
-            <router-link :to="{ name: 'dashboard_path' }"> Cancel </router-link></button>
+            <router-link :to="{ name: 'dashboard_path' }"> Cancel </router-link>
+          </button>
         </div>
       </div>
     </form>
@@ -72,24 +103,22 @@
 <script>
 import "bulma-calendar/dist/css/bulma-calendar.min.css";
 import bulmaCalendar from "bulma-calendar/dist/js/bulma-calendar.min.js";
-// import Multiselect from '@vueform/multiselect';
-
+import Multiselect from "@vueform/multiselect";
+import HeaderNav from "@/components/HeaderNav.vue";
 
 export default {
-  components:{
-    //Multiselect,
+  components: {
+    Multiselect,
+    HeaderNav,
   },
   data() {
     return {
       startDate: new Date(),
       endDate: new Date(),
       states: ["Beta", "Initiated", "Pause"],
-      // value: [],
-      // options: [
-      //       { value: "batman", label: "Batman" },
-      //       { value: "robin", label: "Robin" },
-      //       { value: "joker", label: "Joker" }
-      // ],
+      valueTeam: null,
+      valuePM: null,
+      users: ["Luis", "Eddy", "Erick"],
     };
   },
   mounted() {
@@ -120,6 +149,30 @@ export default {
       var e = document.getElementById("stateSelection");
       var valor = e.value;
       alert(valor);
+    },
+    //TODO: Make a GET to database in users table and save it to a dictionary
+    getUsers() {},
+
+    //?TODO: Make a Get to projects table to assign next id to the project_id
+
+    //TODO: Make a POST to database in projects table
+    createNewProject() {
+      let newProject = {
+        title: document.getElementById("projectTitle").value,
+        description: document.getElementById("projectDescription").value,
+        start_date: this.startDate,
+        finish_date: this.endDate,
+        state: document.getElementById("stateSelection").value,
+      };
+      alert(document.getElementById("projectDescription").value);
+    },
+    // Make a POST to database in users_projects table
+    createNewProjectUser() {
+      let newRelation = {
+        user_id: "",
+        project_id: "",
+        rol_project_user: "",
+      };
     },
   },
 };

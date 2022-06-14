@@ -82,6 +82,8 @@ export default {
       let name = this.projects[projectId - 1].name;
       alert("Cambiando a proyecto " + name);
     },
+
+    //Make a GET to database table projects and users_projects
   },
 };
 </script>

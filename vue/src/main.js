@@ -1,26 +1,32 @@
+//import Vue from "vue";
+
 import { createApp } from "vue";
+
 import App from "./App.vue";
+
 import router from "./router";
+
+import "bootstrap/dist/js/bootstrap.js";
 import "bootstrap/dist/css/bootstrap.css";
-import { library } from "@fortawesome/fontawesome-svg-core";
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-//import bulmaCalendar from '~bulma-calendar/dist/js/bulma-calendar.min.js';
-import VueAxios from "vue-axios";
-import axios from "axios";
+import "timeline-vuejs/dist/timeline-vuejs.css";
+//import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+
+//import VueAxios from "vue-axios";
+//import axios from "axios";
 
 // import VueAxios from "vue-axios";
 
-library.add(faTrash);
-
 const app = createApp(App);
-
 app.use(router);
 
-app.use(VueAxios, axios);
+//app.use("font-awesome-icon", FontAwesomeIcon);
 
-app.component("font-awesome-icon", FontAwesomeIcon);
+//Vue.use(router);
 
+//app.use(axios);
 app.mount("#app");
 
-import "bootstrap/dist/js/bootstrap.js";
+// let vue_app = new Vue({
+//   el: '#vue-container',
+//   components: {App}
+// })
