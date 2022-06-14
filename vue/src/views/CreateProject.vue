@@ -90,6 +90,19 @@
         </div>
       </div>
 
+      <div class="field">
+        <label class="label">Progress</label>
+        <div class="control">
+          <input
+            class="input"
+            type="text"
+            placeholder="Project progress"
+            id="projectProgress"
+            v-model="projectProgress"
+          />
+        </div>
+      </div>
+
       <div class="field is-grouped">
         <div class="control">
           <button class="button is-link" @click.prevent="createNewProject">
@@ -131,6 +144,9 @@ export default {
       projectStartDate: "",
       projectFinishDate: "",
       projectState: "",
+      projectProgress: "",
+      success: false,
+      error: false,
     };
   },
   mounted() {
@@ -143,9 +159,9 @@ export default {
     );
 
     const calendarEnd = new bulmaCalendar(this.$refs.trigger2, {
-      startDate: this.endDate,
+      endDate: this.endDate,
     });
-    calendarEnd.on("date:selected", (e) => (this.endDate = e.start || null));
+    calendarEnd.on("date:selected", (e) => (this.endDate = e.end || null));
   },
   computed: {
     niceDate() {
@@ -156,37 +172,39 @@ export default {
       }
     },
   },
-  setup() {
-    let success = false;
-    let error = false;
-  },
   methods: {
-    getState() {
-      var e = document.getElementById("stateSelection");
-      var valor = e.value;
-      alert(valor);
-    },
+    // getState() {
+    //   var e = document.getElementById("stateSelection");
+    //   var valor = e.value;
+    //   //alert(valor);
+    // },
     //TODO: Make a GET to database in users table and save it to a dictionary
     getUsers() {},
 
-    //TODO: Make a POST to database in projects table
     createNewProject() {
       const newProject = {
         title: this.projectTitle,
         description: this.projectDescription,
-        start_date: this.startDate,
-        finish_date: this.endDate,
+        // start_date: this.startDate,
+        // finish_date: this.endDate,
+        start_date: "2022-07-20",
+        finish_date: "2022-07-27",
         state: this.projectState,
+        progress: this.projectProgress,
       };
-      console.log(newProject);
+      //console.log(newProject);
+
+      //Making a post to projects table
       axios
         .post("http://127.0.0.1:3000/projects.json", { project: newProject })
         .then((res) => {
-          success = true;
+          this.success = true;
         })
         .catch((error) => {
-          error = error.data;
+          this.error = error.data;
         });
+
+      //TODO: Make a POST to users_projects table
     },
     // Make a POST to database in users_projects table
     createNewProjectUser() {

@@ -58,7 +58,8 @@ const router = createRouter({
       component: () => import("../views/AllPhases.vue"),
     },
     {
-      path: "/RoadMap",
+      //path: "/RoadMap",
+      path: "/RoadMap/:projectId?",
       name: "RoadMap",
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route

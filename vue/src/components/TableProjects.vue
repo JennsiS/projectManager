@@ -21,7 +21,11 @@
               class="button is-primary"
               v-on:click="getProjectPage(column.id)"
             >
-              View
+              <router-link
+                :to="{ name: 'RoadMap', params: { projectId: column.id } }"
+              >
+                View
+              </router-link>
             </button>
           </th>
           <th>
@@ -61,9 +65,6 @@ export default {
     // GET relations between projects and users from database
     axios.get("http://localhost:3000/users_projects.json").then((response) => {
       this.team = response.data;
-      //console.log(this.team);
-      //console.log(this.team[0].users_projects);
-      //console.log(this.team.UsersProject);
     });
 
     // GET users
@@ -79,14 +80,14 @@ export default {
     };
   },
   methods: {
-    getProjectPage(projectId) {
-      //alert(projectId);
-      //alert(this.projects[projectId].name);
-      // let project = this.projects.filter(allProjects => allProjects.id === 1);
-      //alert(project.id);
-      let name = this.projects[projectId - 1].name;
-      //alert("Cambiando a proyecto " + name);
-    },
+    // getProjectPage(projectId) {
+    //   //alert(projectId);
+    //   //alert(this.projects[projectId].name);
+    //   // let project = this.projects.filter(allProjects => allProjects.id === 1);
+    //   //alert(project.id);
+    //   let name = this.projects[projectId - 1].name;
+    //   //alert("Cambiando a proyecto " + name);
+    // },
 
     getProjectManager() {},
   },
@@ -99,5 +100,10 @@ export default {
 }
 .delete {
   width: 50%;
+}
+
+button a {
+  text-decoration: none;
+  color: black;
 }
 </style>

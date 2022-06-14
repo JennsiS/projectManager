@@ -45,13 +45,16 @@
 import ProjectOptions from "../components/ProjectOptions.vue";
 import HeaderNav from "@/components/HeaderNav.vue";
 export default {
+  mounted() {
+    console.log(this.projectId);
+  },
   components: {
     ProjectOptions,
     HeaderNav,
   },
   data() {
     return {
-      // projectId: this.$route.params.id
+      projectId: this.$route.params.id,
     };
   },
 };
