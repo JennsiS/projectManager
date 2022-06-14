@@ -9,10 +9,18 @@
   </div>
 </template>
 
-<script setup>
+<script>
 import TablePhases from "@/components/TablePhases.vue";
 import HeaderNav from "@/components/HeaderNav.vue";
 import ProjectOptions from "../components/ProjectOptions.vue";
+
+export default {
+  components: {
+    TablePhases,
+    HeaderNav,
+    ProjectOptions,
+  },
+};
 </script>
 
 <style scoped>

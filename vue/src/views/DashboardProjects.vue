@@ -14,13 +14,13 @@ import HeaderNav from "@/components/HeaderNav.vue";
 import axios from 'axios';
 
 export default {
-  mounted() {
-    axios.get("https://localhost:3000/projects.json").then((response) => {
-      console.log(response);
-    });
-    //fetch('https://localhost:3000/projects.json').then((response) => response.json()).then((json) => console.log(json));
-    //axios.get('https://pokeapi.co/api/v2/pokemon/ditto')
-  },
+  // mounted() {
+  //   axios.get("http://localhost:3000/projects.json").then((response) => {
+  //     console.log(response.data);
+  //   });
+  //   //fetch('https://localhost:3000/projects.json').then((response) => response.json()).then((json) => console.log(json));
+  //   //axios.get('https://pokeapi.co/api/v2/pokemon/ditto')
+  // },
   components: {
     TableProjects,
     HeaderNav,

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_06_07_185641) do
+ActiveRecord::Schema[7.0].define(version: 2022_06_14_151225) do
   create_table "important_dates", force: :cascade do |t|
     t.date "date"
     t.string "description"
@@ -38,6 +38,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_07_185641) do
     t.string "state"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "progress"
   end
 
   create_table "projects_phases", force: :cascade do |t|

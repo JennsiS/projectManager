@@ -160,6 +160,7 @@ import "../../node_modules/vue-simple-calendar/dist/style.css";
 //import SideBar from "@/components/SideBar.vue";
 import ProjectOptions from "../components/ProjectOptions.vue";
 import HeaderNav from "../components/HeaderNav.vue";
+import axios from "axios";
 
 export default {
   name: "App",
@@ -173,6 +174,7 @@ export default {
   data() {
     return {
       /* Show the current month, and give it some fake items to show */
+      importantDates: [],
       showDate: this.thisMonth(1),
       message: "",
       startingDayOfWeek: 0,
@@ -190,80 +192,81 @@ export default {
       useDefaultTheme: true,
       useHolidayTheme: true,
       useTodayIcons: false,
+      items: [],
       //Important dates here
-      items: [
-        {
-          id: "e0",
-          startDate: "2018-01-05",
-        },
-        {
-          id: "e1",
-          startDate: this.thisMonth(15, 18, 30),
-        },
-        {
-          id: "e2",
-          startDate: this.thisMonth(15),
-          title: "Single-day item with a long title",
-        },
-        {
-          id: "e3",
-          startDate: this.thisMonth(7, 9, 25),
-          endDate: this.thisMonth(10, 16, 30),
-          title: "Multi-day item with a long title and times",
-        },
-        {
-          id: "e4",
-          startDate: this.thisMonth(20),
-          title: "My Birthday!",
-          classes: "birthday",
-          url: "https://en.wikipedia.org/wiki/Birthday",
-        },
-        {
-          id: "e5",
-          startDate: this.thisMonth(5),
-          endDate: this.thisMonth(12),
-          title: "Multi-day item",
-          classes: "purple",
-        },
-        {
-          id: "foo",
-          startDate: this.thisMonth(29),
-          title: "Same day 1",
-        },
-        {
-          id: "e6",
-          startDate: this.thisMonth(29),
-          title: "Same day 2",
-          classes: "orange",
-        },
-        {
-          id: "e7",
-          startDate: this.thisMonth(29),
-          title: "Same day 3",
-        },
-        {
-          id: "e8",
-          startDate: this.thisMonth(29),
-          title: "Same day 4",
-          classes: "orange",
-        },
-        {
-          id: "e9",
-          startDate: this.thisMonth(29),
-          title: "Same day 5",
-        },
-        {
-          id: "e10",
-          startDate: this.thisMonth(29),
-          title: "Same day 6",
-          classes: "orange",
-        },
-        {
-          id: "e11",
-          startDate: this.thisMonth(29),
-          title: "Same day 7",
-        },
-      ],
+      // items: [
+      //   {
+      //     id: "e0",
+      //     startDate: "2018-01-05",
+      //   },
+      //   {
+      //     id: "e1",
+      //     startDate: this.thisMonth(15, 18, 30),
+      //   },
+      //   {
+      //     id: "e2",
+      //     startDate: this.thisMonth(15),
+      //     title: "Single-day item with a long title",
+      //   },
+      //   {
+      //     id: "e3",
+      //     startDate: this.thisMonth(7, 9, 25),
+      //     endDate: this.thisMonth(10, 16, 30),
+      //     title: "Multi-day item with a long title and times",
+      //   },
+      //   {
+      //     id: "e4",
+      //     startDate: this.thisMonth(20),
+      //     title: "My Birthday!",
+      //     classes: "birthday",
+      //     url: "https://en.wikipedia.org/wiki/Birthday",
+      //   },
+      //   {
+      //     id: "e5",
+      //     startDate: this.thisMonth(5),
+      //     endDate: this.thisMonth(12),
+      //     title: "Multi-day item",
+      //     classes: "purple",
+      //   },
+      //   {
+      //     id: "foo",
+      //     startDate: this.thisMonth(29),
+      //     title: "Same day 1",
+      //   },
+      //   {
+      //     id: "e6",
+      //     startDate: this.thisMonth(29),
+      //     title: "Same day 2",
+      //     classes: "orange",
+      //   },
+      //   {
+      //     id: "e7",
+      //     startDate: this.thisMonth(29),
+      //     title: "Same day 3",
+      //   },
+      //   {
+      //     id: "e8",
+      //     startDate: this.thisMonth(29),
+      //     title: "Same day 4",
+      //     classes: "orange",
+      //   },
+      //   {
+      //     id: "e9",
+      //     startDate: this.thisMonth(29),
+      //     title: "Same day 5",
+      //   },
+      //   {
+      //     id: "e10",
+      //     startDate: this.thisMonth(29),
+      //     title: "Same day 6",
+      //     classes: "orange",
+      //   },
+      //   {
+      //     id: "e11",
+      //     startDate: this.thisMonth(29),
+      //     title: "Same day 7",
+      //   },
+      // ],
     };
   },
   computed: {
@@ -301,6 +304,24 @@ export default {
   mounted() {
     this.newItemStartDate = CalendarMath.isoYearMonthDay(CalendarMath.today());
     this.newItemEndDate = CalendarMath.isoYearMonthDay(CalendarMath.today());
+    //GET important dates from database
+    axios.get("http://localhost:3000/important_dates.json").then((response) => {
+      this.importantDates = response.data;
+      //console.log(this.importantDates);
+    });
+    for (let i = 0; i < this.importantDates.length; i++) {
+      let name = this.importantDates[i].name;
+      let dateId = this.importantDates[i].id;
+      let date = this.importantDates[i].date;
+      let newDate = {
+        id: dateId,
+        title: name,
+        startDate: date,
+      };
+      this.items.push(newDate);
+      console.log(newDate);
+    }
+    //console.log(this.items);
   },
   methods: {
     thisMonth(d, h, m) {

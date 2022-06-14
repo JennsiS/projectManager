@@ -1,10 +1,24 @@
 class UsersProjectsController < ApplicationController
   before_action :set_users_project, only: %i[ show edit update destroy ]
-  before_action :authenticate_user!
+  # before_action :authenticate_user!
 
   # GET /users_projects or /users_projects.json
   def index
     @users_projects = UsersProject.all
+    # respond_to do |format|
+    #   format.html do 
+    #     @users_projects = UsersProject.all
+    #   end
+    #   format.json do
+    #     users_projects_list = UsersProject.all.map do |userProject| 
+    #       {users_projects: userProject}
+    #     end
+
+    #     render json: {list: users_projects_list}
+    #   end
+    # end
+
+
   end
 
   # GET /users_projects/1 or /users_projects/1.json

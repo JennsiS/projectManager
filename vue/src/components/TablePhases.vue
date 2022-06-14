@@ -27,10 +27,10 @@
             <button class="button is-danger delete">Delete</button>
           </th>
           <th>{{ column.name }}</th>
-          <th>{{ column.projectManager }}</th>
-          <th>{{ column.team }}</th>
-          <th>{{ column.startDate }}</th>
-          <th>{{ column.endDate }}</th>
+          <th>project manager</th>
+          <th>team</th>
+          <th>{{ column.start_date }}</th>
+          <th>{{ column.finish_date }}</th>
           <th>{{ column.description }}</th>
         </tr>
       </tbody>
@@ -39,30 +39,19 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
+  mounted() {
+    //GET actual projects from database
+    axios.get("http://localhost:3000/phases.json").then((response) => {
+      this.phases = response.data;
+      console.log(this.phases);
+    });
+  },
   data() {
     return {
-      phases: [
-        // Agregar data del api
-        {
-          id: 1,
-          name: "MVP",
-          projectManager: "Dickerson",
-          team: "Macdonald",
-          startDate: "",
-          endDate: "",
-          description: "",
-        },
-        {
-          id: 2,
-          name: "Test",
-          projectManager: "Dickerson",
-          team: "Macdonald",
-          startDate: "10/6/22",
-          endDate: "10/8/22",
-          description: "",
-        },
-      ],
+      phases: [],
     };
   },
   methods: {

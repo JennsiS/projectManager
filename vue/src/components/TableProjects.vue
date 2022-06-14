@@ -15,7 +15,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="column in projects" :key="column">
+        <tr v-for="(column, index) in projects" :key="index">
           <th>
             <button
               class="button is-primary"
@@ -27,15 +27,16 @@
           <th>
             <button class="button is-danger delete">Delete</button>
           </th>
-          <th>{{ column.name }}</th>
+          <th>{{ column.title }}</th>
           <th>{{ column.projectManager }}</th>
           <th>{{ column.team }}</th>
-          <th>{{ column.startDate }}</th>
-          <th>{{ column.endDate }}</th>
+          <th>{{ column.start_date }}</th>
+          <th>{{ column.finish_date }}</th>
           <th>{{ column.state }}</th>
           <th>
             <progress class="progress is-primary" value="15" max="100">
-              {{ column.progress }}
+              <!-- {{ column.project.progress }} -->
+              15%
             </progress>
           </th>
         </tr>
@@ -45,32 +46,36 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
+  setup() {
+    //let projects = [];
+  },
+  mounted() {
+    //GET actual projects from database
+    axios.get("http://localhost:3000/projects.json").then((response) => {
+      this.projects = response.data;
+      console.log(this.projects);
+    });
+
+    // GET relations between projects and users from database
+    axios.get("http://localhost:3000/users_projects.json").then((response) => {
+      this.team = response.data;
+      //console.log(this.team);
+      //console.log(this.team[0].users_projects);
+      //console.log(this.team.UsersProject);
+    });
+
+    // GET users
+    // axios.get("http://localhost:3000/users_projects.json").then((response) => {
+    //   this.team = response.data.list;
+    // });
+  },
   data() {
     return {
-      projects: [
-        // Agregar data del api
-        {
-          id: 1,
-          name: "Lesli",
-          projectManager: "Dickerson",
-          team: "Macdonald",
-          startDate: "",
-          endDate: "",
-          state: "beta",
-          progress: "50%",
-        },
-        {
-          id: 2,
-          name: "Lesli.cloud",
-          projectManager: "Dickerson",
-          team: "Macdonald",
-          startDate: "10/6/22",
-          endDate: "10/8/22",
-          state: "beta",
-          progress: "50%",
-        },
-      ],
+      projects: [],
+      users: [],
+      team: [],
     };
   },
   methods: {
@@ -80,10 +85,10 @@ export default {
       // let project = this.projects.filter(allProjects => allProjects.id === 1);
       //alert(project.id);
       let name = this.projects[projectId - 1].name;
-      alert("Cambiando a proyecto " + name);
+      //alert("Cambiando a proyecto " + name);
     },
 
-    //Make a GET to database table projects and users_projects
+    getProjectManager() {},
   },
 };
 </script>

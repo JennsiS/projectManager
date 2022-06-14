@@ -25,8 +25,3 @@ app.use(router);
 
 //app.use(axios);
 app.mount("#app");
-
-// let vue_app = new Vue({
-//   el: '#vue-container',
-//   components: {App}
-// })

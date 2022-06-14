@@ -36,4 +36,5 @@
 
 /node_modules
 
+#Change later, just for commit
 app/assets/javascripts/vue/

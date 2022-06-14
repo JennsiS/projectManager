@@ -1,7 +1,7 @@
 <template>
   <div class="tabs">
     <ul>
-      <li><a>Roadmap</a></li>
+      <li><router-link :to="{ name: 'RoadMap' }"> Roadmap </router-link></li>
       <li>
         <router-link :to="{ name: 'ImportantDates' }"> Calendar </router-link>
       </li>

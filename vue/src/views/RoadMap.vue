@@ -49,6 +49,11 @@ export default {
     ProjectOptions,
     HeaderNav,
   },
+  data() {
+    return {
+      // projectId: this.$route.params.id
+    };
+  },
 };
 </script>
 

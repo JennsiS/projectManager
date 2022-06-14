@@ -1,6 +1,6 @@
 class PhasesController < ApplicationController
   before_action :set_phase, only: %i[ show edit update destroy ]
-  before_action :authenticate_user!
+  #before_action :authenticate_user!
 
   # GET /phases or /phases.json
   def index

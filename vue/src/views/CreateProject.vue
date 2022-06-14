@@ -10,6 +10,7 @@
             type="text"
             placeholder="Project title"
             id="projectTitle"
+            v-model="projectTitle"
           />
         </div>
       </div>
@@ -22,6 +23,7 @@
             type="text"
             placeholder="Project description"
             id="projectDescription"
+            v-model="projectDescription"
           />
         </div>
       </div>
@@ -46,7 +48,11 @@
         <label class="label">State</label>
         <div class="control">
           <div class="select">
-            <select id="stateSelection" @change="getState">
+            <select
+              id="stateSelection"
+              @change="getState"
+              v-model="projectState"
+            >
               <option
                 v-for="state in states"
                 v-bind:value="state"
@@ -86,7 +92,7 @@
 
       <div class="field is-grouped">
         <div class="control">
-          <button class="button is-link" v-on:click="createNewProject()">
+          <button class="button is-link" @click.prevent="createNewProject">
             Create
           </button>
         </div>
@@ -105,6 +111,7 @@ import "bulma-calendar/dist/css/bulma-calendar.min.css";
 import bulmaCalendar from "bulma-calendar/dist/js/bulma-calendar.min.js";
 import Multiselect from "@vueform/multiselect";
 import HeaderNav from "@/components/HeaderNav.vue";
+import axios from "axios";
 
 export default {
   components: {
@@ -119,6 +126,11 @@ export default {
       valueTeam: null,
       valuePM: null,
       users: ["Luis", "Eddy", "Erick"],
+      projectTitle: "",
+      projectDescription: "",
+      projectStartDate: "",
+      projectFinishDate: "",
+      projectState: "",
     };
   },
   mounted() {
@@ -144,6 +156,10 @@ export default {
       }
     },
   },
+  setup() {
+    let success = false;
+    let error = false;
+  },
   methods: {
     getState() {
       var e = document.getElementById("stateSelection");
@@ -153,18 +169,24 @@ export default {
     //TODO: Make a GET to database in users table and save it to a dictionary
     getUsers() {},
 
-    //?TODO: Make a Get to projects table to assign next id to the project_id
-
     //TODO: Make a POST to database in projects table
     createNewProject() {
-      let newProject = {
-        title: document.getElementById("projectTitle").value,
-        description: document.getElementById("projectDescription").value,
+      const newProject = {
+        title: this.projectTitle,
+        description: this.projectDescription,
         start_date: this.startDate,
         finish_date: this.endDate,
-        state: document.getElementById("stateSelection").value,
+        state: this.projectState,
       };
-      alert(document.getElementById("projectDescription").value);
+      console.log(newProject);
+      axios
+        .post("http://127.0.0.1:3000/projects.json", { project: newProject })
+        .then((res) => {
+          success = true;
+        })
+        .catch((error) => {
+          error = error.data;
+        });
     },
     // Make a POST to database in users_projects table
     createNewProjectUser() {
