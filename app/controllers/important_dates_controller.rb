@@ -35,6 +35,17 @@ class ImportantDatesController < ApplicationController
     end
   end
 
+  def get_dates_by_project
+    return if params[:project_id].blank?
+
+    @important_date = ImportantDate.find params[:project_id]
+    
+    respond_to do |format|
+      format.json { render json: @important_date, stauts: :ok}
+    end
+
+  end
+
   # PATCH/PUT /important_dates/1 or /important_dates/1.json
   def update
     respond_to do |format|
@@ -66,6 +77,6 @@ class ImportantDatesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def important_date_params
-      params.require(:important_date).permit(:date, :description, :name)
+      params.require(:important_date).permit(:date, :description, :name, :project_id)
     end
 end

@@ -29,8 +29,9 @@ export default {
 </script>
 
 <style scoped>
-.add-button {
+.add-button a{
   margin-top: 3%;
   text-decoration: none;
+  color: black;
 }
 </style>

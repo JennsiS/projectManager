@@ -17,7 +17,7 @@
 import TablePhases from "@/components/TablePhases.vue";
 import HeaderNav from "@/components/HeaderNav.vue";
 import ProjectOptions from "../components/ProjectOptions.vue";
-import axios from "axios";
+//import axios from "axios";
 
 export default {
   components: {
@@ -30,8 +30,7 @@ export default {
       projectId: this.$route.params.id,
     };
   },
-  mounted() {
-  },
+  mounted() {},
 };
 </script>
 

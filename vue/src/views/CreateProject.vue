@@ -46,10 +46,7 @@
         <label class="label">State</label>
         <div class="control">
           <div class="select">
-            <select
-              id="stateSelection"
-              v-model="projectState"
-            >
+            <select id="stateSelection" v-model="projectState">
               <option
                 v-for="state in states"
                 v-bind:value="state"

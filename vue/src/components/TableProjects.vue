@@ -88,8 +88,12 @@ export default {
     deleteProject(projectId) {
       axios
         .delete("http://localhost:3000/projects/" + projectId + ".json")
-        .then(() =>
-          this.$swal("Project with id: " + projectId + " removed successfully")
+        .then(
+          () =>
+            this.$swal(
+              "Project with id: " + projectId + " removed successfully"
+            ),
+          this.$forceUpdate()
         );
     },
 
