@@ -4,7 +4,6 @@
       <thead>
         <tr>
           <th></th>
-          <th></th>
           <th>{{ "Name" }}</th>
           <th>{{ "Project manager" }}</th>
           <th>{{ "Team" }}</th>
@@ -15,14 +14,6 @@
       </thead>
       <tbody>
         <tr v-for="column in phases" :key="column">
-          <th>
-            <button
-              class="button is-primary"
-              v-on:click="getProjectPage(column.id)"
-            >
-              View
-            </button>
-          </th>
           <th>
             <button class="button is-danger delete">Delete</button>
           </th>

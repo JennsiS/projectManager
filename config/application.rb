@@ -28,7 +28,7 @@ module ProjectManager
                     resource "/*",
                         headers: :any,
                         expose: %w(access-token expiry token-type uid client),
-                        methods: %i(get post options put)
+                        methods: %i(get post options put delete)
                 end
             end
   end

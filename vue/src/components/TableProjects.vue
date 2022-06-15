@@ -17,19 +17,19 @@
       <tbody>
         <tr v-for="(column, index) in projects" :key="index">
           <th>
-            <button
-              class="button is-primary"
-              v-on:click="getProjectPage(column.id)"
-            >
-              <router-link
-                :to="{ name: 'RoadMap', params: { projectId: column.id } }"
-              >
+            <button class="button is-primary">
+              <router-link :to="{ name: 'RoadMap', params: { id: column.id } }">
                 View
               </router-link>
             </button>
           </th>
           <th>
-            <button class="button is-danger delete">Delete</button>
+            <button
+              class="button is-danger delete"
+              v-on:click="deleteProject(column.id)"
+            >
+              Delete
+            </button>
           </th>
           <th>{{ column.title }}</th>
           <th>{{ column.projectManager }}</th>
@@ -88,6 +88,13 @@ export default {
     //   let name = this.projects[projectId - 1].name;
     //   //alert("Cambiando a proyecto " + name);
     // },
+    deleteProject(projectId) {
+      axios
+        .delete("http://localhost:3000/projects/" + projectId + ".json")
+        .then(() => 
+        //console.log("Delete successful")
+        alert("Project "+ projectId+ "removed successfully"));
+    },
 
     getProjectManager() {},
   },

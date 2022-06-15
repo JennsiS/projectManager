@@ -1,18 +1,21 @@
 <template>
   <div>
     <HeaderNav />
-    <ProjectOptions />
+    <ProjectOptions projectId="{{this.projectId}}" />
+
     <div class="timeline">
       <header class="timeline-header">
         <span class="tag is-medium is-primary">Start</span>
       </header>
-      <div class="timeline-item">
+
+      <div class="timeline-item" v-for="phase in phases" :key="phase">
         <div class="timeline-marker is-primary"></div>
         <div class="timeline-content">
-          <p class="heading">January 2016</p>
-          <p>Timeline content - Can include any HTML element</p>
+          <p class="heading">{{phase.name}}</p>
+          <p>{{phase.start_date}}</p>
         </div>
       </div>
+<!-- 
       <div class="timeline-item">
         <div class="timeline-marker is-warning is-image is-32x32">
           <img src="https://bulma.io/images/placeholders/32x32.png" />
@@ -33,7 +36,7 @@
           <p class="heading">March 2017</p>
           <p>Timeline content - Can include any HTML element</p>
         </div>
-      </div>
+      </div> -->
       <header class="timeline-header">
         <span class="tag is-medium is-primary">End</span>
       </header>
@@ -44,9 +47,30 @@
 <script>
 import ProjectOptions from "../components/ProjectOptions.vue";
 import HeaderNav from "@/components/HeaderNav.vue";
+import axios from "axios";
+
 export default {
   mounted() {
-    console.log(this.projectId);
+    //console.log(this.projectId);
+    // axios
+    //   .get("http://localhost:3000/projects/" + this.projectId + ".json")
+    //   .then((response) => {
+    //     this.projects = response.data;
+    //     //console.log(this.projects);
+    //   });
+
+    axios.get("http://localhost:3000/phases.json").then((response) => {
+      this.phases = response.data;
+      console.log(this.phases);
+    });
+
+    axios
+      .get("http://localhost:3000/projects_phases.json", { params: { id: 1 } })
+      //.get("http://localhost:3000/projects_phases?project_id="+ this.projectId + ".json")
+      .then((response) => {
+        //this.projects = response.data;
+        console.log(response.data);
+      });
   },
   components: {
     ProjectOptions,
@@ -55,6 +79,7 @@ export default {
   data() {
     return {
       projectId: this.$route.params.id,
+      phases: [],
     };
   },
 };

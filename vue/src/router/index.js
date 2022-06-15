@@ -33,7 +33,7 @@ const router = createRouter({
       component: () => import("../views/CreatePhase.vue"),
     },
     {
-      path: "/ImportantDates",
+      path: "/ImportantDates:id?",
       name: "ImportantDates",
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
@@ -50,7 +50,7 @@ const router = createRouter({
     // },
     {
       // path: "/Phases/:id",
-      path: "/Phases",
+      path: "/Phases:id?",
       name: "Phases",
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
@@ -59,7 +59,7 @@ const router = createRouter({
     },
     {
       //path: "/RoadMap",
-      path: "/RoadMap/:projectId?",
+      path: "/RoadMap/:id?",
       name: "RoadMap",
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route

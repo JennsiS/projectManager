@@ -28,19 +28,31 @@
         </div>
       </div>
 
-      <div class="field">
+      <!-- <div class="field">
         <label class="label">Start date</label>
         <div id="app">
-          <!-- Selected date: {{ niceDate }} -->
           <button ref="trigger" type="button">Change</button>
+        </div>
+      </div> -->
+
+      <div class="field">
+        <label class="label">Start date</label>
+        <div class="control">
+          <input class="input is-info" type="date" />
         </div>
       </div>
 
-      <div class="field">
+      <!-- <div class="field">
         <label class="label">Finish date</label>
         <div id="app">
-          <!-- Selected date: {{ niceDate }} -->
           <button ref="trigger2" type="button">Change</button>
+        </div>
+      </div> -->
+
+      <div class="field">
+        <label class="label">End date</label>
+        <div class="control">
+          <input class="input is-info" type="date" />
         </div>
       </div>
 
@@ -138,7 +150,8 @@ export default {
       states: ["Beta", "Initiated", "Pause"],
       valueTeam: null,
       valuePM: null,
-      users: ["Luis", "Eddy", "Erick"],
+      users: [],
+      allUsersInfo: [],
       projectTitle: "",
       projectDescription: "",
       projectStartDate: "",
@@ -161,7 +174,16 @@ export default {
     const calendarEnd = new bulmaCalendar(this.$refs.trigger2, {
       endDate: this.endDate,
     });
-    calendarEnd.on("date:selected", (e) => (this.endDate = e.end || null));
+    calendarEnd.on("date:selected", (e) => (this.endDate = e.start || null));
+
+    //GET users for adding members to the project
+    axios.get("http://localhost:3000/users.json").then((response) => {
+      response.data.forEach((item) => {
+        this.users.push(item.email);
+      });
+      this.allUsersInfo = response.data;
+      //console.log(this.allUsersInfo);
+    });
   },
   computed: {
     niceDate() {
@@ -173,14 +195,6 @@ export default {
     },
   },
   methods: {
-    // getState() {
-    //   var e = document.getElementById("stateSelection");
-    //   var valor = e.value;
-    //   //alert(valor);
-    // },
-    //TODO: Make a GET to database in users table and save it to a dictionary
-    getUsers() {},
-
     createNewProject() {
       const newProject = {
         title: this.projectTitle,
@@ -194,6 +208,9 @@ export default {
       };
       //console.log(newProject);
 
+      //console.log(this.valueTeam);
+      //console.log(this.valuePM);
+
       //Making a post to projects table
       axios
         .post("http://127.0.0.1:3000/projects.json", { project: newProject })
@@ -205,6 +222,14 @@ export default {
         });
 
       //TODO: Make a POST to users_projects table
+      // axios
+      //   .post("http://127.0.0.1:3000/users_projects.json", { users_project: newProject })
+      //   .then((res) => {
+      //     this.success = true;
+      //   })
+      //   .catch((error) => {
+      //     this.error = error.data;
+      //   });
     },
     // Make a POST to database in users_projects table
     createNewProjectUser() {

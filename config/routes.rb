@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   resources :phases
   resources :projects
   resources :roles
+  resources :users
   devise_for :users
   # get 'home/index'
   get 'home/about'
