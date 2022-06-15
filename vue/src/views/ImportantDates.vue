@@ -307,20 +307,20 @@ export default {
     //GET important dates from database
     axios.get("http://localhost:3000/important_dates.json").then((response) => {
       this.importantDates = response.data;
-      //console.log(this.importantDates);
+      console.log(this.importantDates);
     });
-    for (let i = 0; i < this.importantDates.length; i++) {
-      let name = this.importantDates[i].name;
-      let dateId = this.importantDates[i].id;
-      let date = this.importantDates[i].date;
-      let newDate = {
-        id: dateId,
-        title: name,
-        startDate: date,
-      };
-      this.items.push(newDate);
-      console.log(newDate);
-    }
+    // for (let i = 0; i < this.importantDates.length; i++) {
+    //   let name = this.importantDates[i].name;
+    //   let dateId = this.importantDates[i].id;
+    //   let date = this.importantDates[i].date;
+    //   let newDate = {
+    //     id: dateId,
+    //     title: name,
+    //     startDate: date,
+    //   };
+    //   this.items.push(newDate);
+    //   console.log(newDate);
+    // }
     //console.log(this.items);
   },
   methods: {

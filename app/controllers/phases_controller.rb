@@ -4,7 +4,16 @@ class PhasesController < ApplicationController
 
   # GET /phases or /phases.json
   def index
+
+    phase_id = params[:phase_id]
+
+    if phase_id
+      @phases = Phase.where(id: phase_id)
+      return
+    end
+
     @phases = Phase.all
+
   end
 
   # GET /phases/1 or /phases/1.json

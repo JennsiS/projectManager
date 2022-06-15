@@ -4,7 +4,14 @@ class ProjectsPhasesController < ApplicationController
 
   # GET /projects_phases or /projects_phases.json
   def index
+    project_id = params[:project_id]
+    
+    if project_id
+      @projects_phases = ProjectsPhase.where(project_id: project_id)
+      return
+    end
     @projects_phases = ProjectsPhase.all
+    
   end
 
   # GET /projects_phases/1 or /projects_phases/1.json

@@ -56,6 +56,7 @@
 
 <script>
 import HeaderNav from "@/components/HeaderNav.vue";
+import axios from 'axios';
 
 export default {
   components: {
@@ -63,13 +64,21 @@ export default {
   },
   data() {
     return {
-      roles: ["super admin", "operator", "admin"],
+      roles: [],
     };
   },
   methods: {
     //TODO: Make a POST to database to users table
     //TODO: Make a POST to users_roles table
   },
+  mounted(){
+    axios.get("http://localhost:3000/roles.json").then((response) => {
+      response.data.forEach((item) => {
+        this.roles.push(item.name);
+      });
+      console.log(this.roles);
+    });
+  }
 };
 </script>
 

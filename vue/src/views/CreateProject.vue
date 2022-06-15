@@ -38,7 +38,7 @@
       <div class="field">
         <label class="label">Start date</label>
         <div class="control">
-          <input class="input is-info" type="date" />
+          <input class="input is-info" type="date" v-model="startDate" />
         </div>
       </div>
 
@@ -52,7 +52,7 @@
       <div class="field">
         <label class="label">End date</label>
         <div class="control">
-          <input class="input is-info" type="date" />
+          <input class="input is-info" type="date" v-model="endDate" />
         </div>
       </div>
 
@@ -133,7 +133,6 @@
 
 <script>
 import "bulma-calendar/dist/css/bulma-calendar.min.css";
-import bulmaCalendar from "bulma-calendar/dist/js/bulma-calendar.min.js";
 import Multiselect from "@vueform/multiselect";
 import HeaderNav from "@/components/HeaderNav.vue";
 import axios from "axios";
@@ -163,18 +162,18 @@ export default {
     };
   },
   mounted() {
-    const calendarStart = new bulmaCalendar(this.$refs.trigger, {
-      startDate: this.startDate,
-    });
-    calendarStart.on(
-      "date:selected",
-      (e) => (this.startDate = e.start || null)
-    );
+    // const calendarStart = new bulmaCalendar(this.$refs.trigger, {
+    //   startDate: this.startDate,
+    // });
+    // calendarStart.on(
+    //   "date:selected",
+    //   (e) => (this.startDate = e.start || null)
+    // );
 
-    const calendarEnd = new bulmaCalendar(this.$refs.trigger2, {
-      endDate: this.endDate,
-    });
-    calendarEnd.on("date:selected", (e) => (this.endDate = e.start || null));
+    // const calendarEnd = new bulmaCalendar(this.$refs.trigger2, {
+    //   endDate: this.endDate,
+    // });
+    // calendarEnd.on("date:selected", (e) => (this.endDate = e.start || null));
 
     //GET users for adding members to the project
     axios.get("http://localhost:3000/users.json").then((response) => {
@@ -199,26 +198,23 @@ export default {
       const newProject = {
         title: this.projectTitle,
         description: this.projectDescription,
-        // start_date: this.startDate,
-        // finish_date: this.endDate,
-        start_date: "2022-07-20",
-        finish_date: "2022-07-27",
+        start_date: this.startDate,
+        finish_date: this.endDate,
         state: this.projectState,
         progress: this.projectProgress,
       };
       //console.log(newProject);
-
-      //console.log(this.valueTeam);
-      //console.log(this.valuePM);
 
       //Making a post to projects table
       axios
         .post("http://127.0.0.1:3000/projects.json", { project: newProject })
         .then((res) => {
           this.success = true;
+          this.$swal("Project created successfully");
         })
         .catch((error) => {
           this.error = error.data;
+          this.$swal("Failed to create project, check project fields");
         });
 
       //TODO: Make a POST to users_projects table

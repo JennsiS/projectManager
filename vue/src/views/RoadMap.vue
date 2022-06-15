@@ -11,11 +11,11 @@
       <div class="timeline-item" v-for="phase in phases" :key="phase">
         <div class="timeline-marker is-primary"></div>
         <div class="timeline-content">
-          <p class="heading">{{phase.name}}</p>
-          <p>{{phase.start_date}}</p>
+          <p class="heading">{{ phase.name }}</p>
+          <p>{{ phase.start_date }}</p>
         </div>
       </div>
-<!-- 
+      <!-- 
       <div class="timeline-item">
         <div class="timeline-marker is-warning is-image is-32x32">
           <img src="https://bulma.io/images/placeholders/32x32.png" />
@@ -51,26 +51,33 @@ import axios from "axios";
 
 export default {
   mounted() {
-    //console.log(this.projectId);
-    // axios
-    //   .get("http://localhost:3000/projects/" + this.projectId + ".json")
-    //   .then((response) => {
-    //     this.projects = response.data;
-    //     //console.log(this.projects);
-    //   });
-
-    axios.get("http://localhost:3000/phases.json").then((response) => {
-      this.phases = response.data;
-      console.log(this.phases);
-    });
-
     axios
-      .get("http://localhost:3000/projects_phases.json", { params: { id: 1 } })
-      //.get("http://localhost:3000/projects_phases?project_id="+ this.projectId + ".json")
+      .get("http://localhost:3000/projects_phases.json", {
+        params: { project_id: this.projectId },
+      })
       .then((response) => {
+        response.data.forEach((item) => {
+          this.phases_ids.push(item.phase_id);
+        });
         //this.projects = response.data;
-        console.log(response.data);
+        console.log(this.phases_ids);
       });
+    this.getPhases();
+  },
+
+  methods: {
+    getPhases() {
+      this.phases_ids.forEach((actual_phase_id) => {
+        axios
+          .get("http://localhost:3000/phases.json", {
+            params: { phase_id: actual_phase_id },
+          })
+          .then((response) => {
+            this.phases.push(response.data);
+          });
+        console.log(this.phases);
+      });
+    },
   },
   components: {
     ProjectOptions,
@@ -80,6 +87,7 @@ export default {
     return {
       projectId: this.$route.params.id,
       phases: [],
+      phases_ids: [],
     };
   },
 };
