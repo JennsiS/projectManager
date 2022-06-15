@@ -12,7 +12,10 @@ Rails.application.routes.draw do
   # get 'home/about'
   root 'home#index'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-
   # Defines the root path route ("/")
   # root "articles#index"
+  
+  get '/all_project_phases/:project_id', to: 'projects#get_phases'
+  get '/team_members/:project_id', to: 'projects#get_team'
+
 end

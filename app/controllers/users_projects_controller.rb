@@ -72,6 +72,24 @@ class UsersProjectsController < ApplicationController
     end
   end
 
+  def createRelation
+    #return if params[:project_id].blank?
+    users = [:user_id]
+    project = [:project_id]
+    rol = [:rol_project_user]
+
+    users.each do |actual_user|
+      @users_project = UsersProject.new(actual_user,project,rol)
+      #text = "Current number is: #{n}"
+      #puts text
+    end
+
+    @users_project = UsersProject.new(user,project,rol)
+
+    #@users_project = UsersProject.new(users_project_params)
+
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_users_project

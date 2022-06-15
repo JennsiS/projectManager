@@ -1,7 +1,7 @@
 <template>
   <div>
     <HeaderNav />
-    <ProjectOptions />
+    <ProjectOptions :projectId="this.projectId" />
     <div id="app">
       <div class="calendar-controls">
         <div v-if="message" class="notification is-success">{{ message }}</div>
@@ -193,6 +193,7 @@ export default {
       useHolidayTheme: true,
       useTodayIcons: false,
       items: [],
+      projectId: this.$route.params.id,
       //Important dates here
       // items: [
       //   {

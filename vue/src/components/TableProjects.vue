@@ -32,7 +32,8 @@
             </button>
           </th>
           <th>{{ column.title }}</th>
-          <th>{{ column.projectManager }}</th>
+          <th></th>
+          <!-- <th>{{ getTeamMembers(column.id) }}</th> -->
           <th>{{ column.team }}</th>
           <th>{{ column.start_date }}</th>
           <th>{{ column.finish_date }}</th>
@@ -59,7 +60,10 @@ export default {
     //GET actual projects from database
     axios.get("http://localhost:3000/projects.json").then((response) => {
       this.projects = response.data;
-      console.log(this.projects);
+      response.data.forEach((item) => {
+        this.projectsIds.push(item.id);
+      });
+      console.log(this.projectsIds);
     });
 
     // GET relations between projects and users from database
@@ -77,6 +81,7 @@ export default {
       projects: [],
       users: [],
       team: [],
+      projectsIds: [],
     };
   },
   methods: {
@@ -88,6 +93,16 @@ export default {
         );
     },
 
+    getTeamMembers(projectId) {
+      axios
+        .get(`http://localhost:3000/team_members/${projectId}.json`)
+        .then((response) => {
+          //console.log(response.data);
+          //this.team.push(response.data);
+        });
+      //console.log(this.team);
+      return this.team;
+    },
     getProjectManager() {},
   },
 };

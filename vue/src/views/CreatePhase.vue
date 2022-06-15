@@ -1,34 +1,42 @@
 <template>
   <div>
-    <ProjectOptions />
+    <ProjectOptions :projectId="this.projectId" />
     <form class="box">
       <div class="field">
         <label class="label">Name</label>
         <div class="control">
-          <input class="input" type="text" placeholder="Project title" />
+          <input
+            class="input"
+            type="text"
+            placeholder="Phase name"
+            v-model="phaseName"
+          />
         </div>
       </div>
 
       <div class="field">
         <label class="label">Description</label>
         <div class="control">
-          <input class="input" type="text" placeholder="Project description" />
+          <input
+            class="input"
+            type="text"
+            placeholder="Phase description"
+            v-model="phaseDescription"
+          />
         </div>
       </div>
 
       <div class="field">
         <label class="label">Start date</label>
-        <div id="app">
-          <!-- Selected date: {{ niceDate }} -->
-          <button ref="trigger" type="button">Change</button>
+        <div class="control">
+          <input class="input is-info" type="date" v-model="startDate" />
         </div>
       </div>
 
       <div class="field">
-        <label class="label">Finish date</label>
-        <div id="app">
-          <!-- Selected date: {{ niceDate }} -->
-          <button ref="trigger2" type="button">Change</button>
+        <label class="label">End date</label>
+        <div class="control">
+          <input class="input is-info" type="date" v-model="endDate" />
         </div>
       </div>
 
@@ -59,7 +67,9 @@
 
       <div class="field is-grouped">
         <div class="control">
-          <button class="button is-link">Submit</button>
+          <button class="button is-link" @click.prevent="createNewPhase">
+            Create
+          </button>
         </div>
         <div class="control">
           <button class="button is-link is-light">Cancel</button>
@@ -70,10 +80,9 @@
 </template>
 
 <script>
-import "bulma-calendar/dist/css/bulma-calendar.min.css";
-import bulmaCalendar from "bulma-calendar/dist/js/bulma-calendar.min.js";
 import ProjectOptions from "../components/ProjectOptions.vue";
 import Multiselect from "@vueform/multiselect";
+import axios from "axios";
 
 export default {
   components: {
@@ -84,40 +93,58 @@ export default {
     return {
       startDate: new Date(),
       endDate: new Date(),
+      phaseName: "",
+      phaseDescription: "",
       valueTeam: null,
       valuePM: null,
-      users: ["Luis", "Eddy", "Erick"],
+      users: [],
+      allUsersInfo: [],
+      projectId: this.$route.params.id,
     };
   },
   mounted() {
-    const calendarStart = new bulmaCalendar(this.$refs.trigger, {
-      startDate: this.startDate,
+    //GET users for selecting members the new phase
+    axios.get("http://localhost:3000/users.json").then((response) => {
+      response.data.forEach((item) => {
+        this.users.push(item.email);
+      });
+      this.allUsersInfo = response.data;
+      //console.log(this.allUsersInfo);
     });
-    calendarStart.on(
-      "date:selected",
-      (e) => (this.startDate = e.start || null)
-    );
-
-    const calendarEnd = new bulmaCalendar(this.$refs.trigger2, {
-      startDate: this.endDate,
-    });
-    calendarEnd.on("date:selected", (e) => (this.endDate = e.start || null));
-  },
-  computed: {
-    niceDate() {
-      if (this.date) {
-        return this.date.toLocaleDateString();
-      } else {
-        return this.date;
-      }
-    },
   },
   methods: {
-    getState() {
-      var e = document.getElementById("stateSelection");
-      var valor = e.value;
-      alert(valor);
+    createNewPhase() {
+      const newPhase = {
+        start_date: this.startDate,
+        finish_date: this.endDate,
+        name: this.phaseDescription,
+        description: this.phaseDescription,
+      };
+      console.log(newPhase);
+
+      //Making a post to projects table
+      axios
+        .post("http://127.0.0.1:3000/phases.json", { phase: newPhase })
+        .then((res) => {
+          this.success = true;
+          this.$swal("Phase created successfully");
+        })
+        .catch((error) => {
+          this.error = error.data;
+          this.$swal("Failed to create phase, check phase fields");
+        });
+
+      //TODO: Make a POST to users_projects table
+      // axios
+      //   .post("http://127.0.0.1:3000/users_projects.json", { users_project: newProject })
+      //   .then((res) => {
+      //     this.success = true;
+      //   })
+      //   .catch((error) => {
+      //     this.error = error.data;
+      //   });
     },
+
     //TODO: Make a POST to add a new phase to Phases table and projects_phases
     //TODO: Make a GER to database to phases, projects_phases, and users
   },

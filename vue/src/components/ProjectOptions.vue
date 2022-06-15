@@ -1,14 +1,32 @@
 <template>
   <div class="tabs">
     <ul>
-      <li><router-link :to="{ name: 'RoadMap' }"> Roadmap </router-link></li>
       <li>
-        <router-link :to="{ name: 'ImportantDates' }"> Calendar </router-link>
+        <router-link :to="{ name: 'RoadMap', params: { id: projectId } }">
+          Roadmap
+        </router-link>
       </li>
-      <li><router-link :to="{ name: 'Phases' }"> Phases </router-link></li>
+      <li>
+        <router-link
+          :to="{ name: 'ImportantDates', params: { id: projectId } }"
+        >
+          Calendar
+        </router-link>
+      </li>
+      <li>
+        <router-link :to="{ name: 'Phases', params: { id: projectId } }">
+          Phases
+        </router-link>
+      </li>
     </ul>
   </div>
 </template>
+
+<script>
+export default {
+  props: { projectId: String },
+};
+</script>
 
 <style scoped>
 li a {

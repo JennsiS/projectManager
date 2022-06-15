@@ -28,26 +28,12 @@
         </div>
       </div>
 
-      <!-- <div class="field">
-        <label class="label">Start date</label>
-        <div id="app">
-          <button ref="trigger" type="button">Change</button>
-        </div>
-      </div> -->
-
       <div class="field">
         <label class="label">Start date</label>
         <div class="control">
           <input class="input is-info" type="date" v-model="startDate" />
         </div>
       </div>
-
-      <!-- <div class="field">
-        <label class="label">Finish date</label>
-        <div id="app">
-          <button ref="trigger2" type="button">Change</button>
-        </div>
-      </div> -->
 
       <div class="field">
         <label class="label">End date</label>
@@ -62,7 +48,6 @@
           <div class="select">
             <select
               id="stateSelection"
-              @change="getState"
               v-model="projectState"
             >
               <option
@@ -97,6 +82,7 @@
               :close-on-select="false"
               :searchable="true"
               :create-option="true"
+              @change="getUsersIds"
             />
           </div>
         </div>
@@ -162,36 +148,14 @@ export default {
     };
   },
   mounted() {
-    // const calendarStart = new bulmaCalendar(this.$refs.trigger, {
-    //   startDate: this.startDate,
-    // });
-    // calendarStart.on(
-    //   "date:selected",
-    //   (e) => (this.startDate = e.start || null)
-    // );
-
-    // const calendarEnd = new bulmaCalendar(this.$refs.trigger2, {
-    //   endDate: this.endDate,
-    // });
-    // calendarEnd.on("date:selected", (e) => (this.endDate = e.start || null));
-
     //GET users for adding members to the project
     axios.get("http://localhost:3000/users.json").then((response) => {
       response.data.forEach((item) => {
         this.users.push(item.email);
       });
       this.allUsersInfo = response.data;
-      //console.log(this.allUsersInfo);
+      console.log(this.allUsersInfo);
     });
-  },
-  computed: {
-    niceDate() {
-      if (this.date) {
-        return this.date.toLocaleDateString();
-      } else {
-        return this.date;
-      }
-    },
   },
   methods: {
     createNewProject() {
@@ -227,6 +191,7 @@ export default {
       //     this.error = error.data;
       //   });
     },
+
     // Make a POST to database in users_projects table
     createNewProjectUser() {
       let newRelation = {

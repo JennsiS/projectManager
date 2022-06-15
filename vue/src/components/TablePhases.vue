@@ -33,12 +33,15 @@
 import axios from "axios";
 
 export default {
+  props: { projectId: String },
   mounted() {
     //GET actual projects from database
-    axios.get("http://localhost:3000/phases.json").then((response) => {
-      this.phases = response.data;
-      console.log(this.phases);
-    });
+    axios
+      .get(`http://localhost:3000/all_project_phases/${this.projectId}.json`)
+      .then((response) => {
+        this.phases = response.data;
+        console.log(this.phases);
+      });
   },
   data() {
     return {

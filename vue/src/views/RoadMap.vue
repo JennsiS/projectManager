@@ -1,7 +1,7 @@
 <template>
   <div>
     <HeaderNav />
-    <ProjectOptions projectId="{{this.projectId}}" />
+    <ProjectOptions :projectId="this.projectId" />
 
     <div class="timeline">
       <header class="timeline-header">
@@ -51,34 +51,29 @@ import axios from "axios";
 
 export default {
   mounted() {
+    // axios
+    //   .get(`http://localhost:3000/projects_phases/${this.projectId}`, {
+    //     params: { project_id: this.projectId },
+    //   })
+    //   .then((response) => {
+    //     response.data.forEach((item) => {
+    //       this.phases_ids.push(item.phase_id);
+    //     });
+    //     //this.projects = response.data;
+    //     console.log(this.phases_ids);
+    //   });
+
+    //Using get phases by project id route
     axios
-      .get("http://localhost:3000/projects_phases.json", {
-        params: { project_id: this.projectId },
-      })
+      .get(`http://localhost:3000/all_project_phases/${this.projectId}.json`)
       .then((response) => {
-        response.data.forEach((item) => {
-          this.phases_ids.push(item.phase_id);
-        });
-        //this.projects = response.data;
-        console.log(this.phases_ids);
+        console.log(response.data);
+        this.phases.push(response.data);
       });
-    this.getPhases();
+    console.log(this.phases);
   },
 
-  methods: {
-    getPhases() {
-      this.phases_ids.forEach((actual_phase_id) => {
-        axios
-          .get("http://localhost:3000/phases.json", {
-            params: { phase_id: actual_phase_id },
-          })
-          .then((response) => {
-            this.phases.push(response.data);
-          });
-        console.log(this.phases);
-      });
-    },
-  },
+  methods: {},
   components: {
     ProjectOptions,
     HeaderNav,
