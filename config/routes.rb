@@ -18,5 +18,6 @@ Rails.application.routes.draw do
   get '/all_project_phases/:project_id', to: 'projects#get_phases'
   get '/team_members/:project_id', to: 'projects#get_team'
   get '/get_important_dates/:project_id', to: 'important_dates#get_dates_by_project'
+  get '/get_team/:project_id/:phase_id', to: 'projects_phases#get_team_phases'
 
 end

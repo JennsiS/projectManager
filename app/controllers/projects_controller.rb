@@ -9,11 +9,6 @@ class ProjectsController < ApplicationController
         @projects = Project.all
       end
       format.json do
-        # projects_list = Project.all.map do |project| 
-        #   {project: project}
-        # end
-
-        # render json: {list: projects_list}
         render json: Project.all
       end
     end

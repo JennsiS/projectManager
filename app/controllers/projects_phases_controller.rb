@@ -4,13 +4,14 @@ class ProjectsPhasesController < ApplicationController
 
   # GET /projects_phases or /projects_phases.json
   def index
-    project_id = params[:project_id]
-    
-    if project_id
-      @projects_phases = ProjectsPhase.where(project_id: project_id)
-      return
+    respond_to do |format|
+      format.html do 
+        @projects_phases = ProjectsPhase.all
+      end
+      format.json do
+        render json: ProjectsPhase.all
+      end
     end
-    @projects_phases = ProjectsPhase.all
     
   end
 
@@ -42,6 +43,20 @@ class ProjectsPhasesController < ApplicationController
     end
   end
 
+  def get_team_phases
+    return if params[:project_id].blank?
+
+    #@projects_phase = ProjectsPhase.find params[:project_id]
+    projects_by_id = ProjectsPhase.where(project_id: params[:project_id])
+    members_by_phase = projects_by_id.where(phase_id: params[:phase_id])
+    @projects_phase = members_by_phase.where(role_user: "Member")
+    
+    respond_to do |format|
+      format.json { render json: @projects_phase, stauts: :ok}
+    end
+
+  end
+
   # PATCH/PUT /projects_phases/1 or /projects_phases/1.json
   def update
     respond_to do |format|
@@ -54,6 +69,8 @@ class ProjectsPhasesController < ApplicationController
       end
     end
   end
+
+
 
   # DELETE /projects_phases/1 or /projects_phases/1.json
   def destroy

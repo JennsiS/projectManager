@@ -22,7 +22,7 @@
             </div>
           </div>
 
-          <div class="field">
+          <!-- <div class="field">
             <label class="label">Period Count</label>
             <div class="control">
               <div class="select">
@@ -33,7 +33,7 @@
                 </select>
               </div>
             </div>
-          </div>
+          </div> -->
 
           <div class="field">
             <label class="label">Starting day of the week</label>
@@ -54,13 +54,6 @@
 
           <div class="field">
             <label class="checkbox">
-              <input v-model="useTodayIcons" type="checkbox" />
-              Use icon for today's period
-            </label>
-          </div>
-
-          <div class="field">
-            <label class="checkbox">
               <input v-model="displayWeekNumbers" type="checkbox" />
               Show week number
             </label>
@@ -70,13 +63,6 @@
             <label class="checkbox">
               <input v-model="showTimes" type="checkbox" />
               Show times
-            </label>
-          </div>
-
-          <div class="field">
-            <label class="checkbox">
-              <input v-model="useHolidayTheme" type="checkbox" />
-              Holidays
             </label>
           </div>
         </div>
@@ -189,85 +175,19 @@ export default {
       newItemTitle: "",
       newItemStartDate: "",
       newItemEndDate: "",
+      newItemDescription: "",
       useDefaultTheme: true,
       useHolidayTheme: true,
       useTodayIcons: false,
       items: [],
       projectId: this.$route.params.id,
-      //Important dates here
       // items: [
-      //   {
+      //    {
       //     id: "e0",
-      //     startDate: "2018-01-05",
-      //   },
-      //   {
-      //     id: "e1",
-      //     startDate: this.thisMonth(15, 18, 30),
-      //   },
-      //   {
-      //     id: "e2",
-      //     startDate: this.thisMonth(15),
-      //     title: "Single-day item with a long title",
-      //   },
-      //   {
-      //     id: "e3",
-      //     startDate: this.thisMonth(7, 9, 25),
-      //     endDate: this.thisMonth(10, 16, 30),
-      //     title: "Multi-day item with a long title and times",
-      //   },
-      //   {
-      //     id: "e4",
-      //     startDate: this.thisMonth(20),
-      //     title: "My Birthday!",
-      //     classes: "birthday",
-      //     url: "https://en.wikipedia.org/wiki/Birthday",
-      //   },
-      //   {
-      //     id: "e5",
-      //     startDate: this.thisMonth(5),
-      //     endDate: this.thisMonth(12),
-      //     title: "Multi-day item",
-      //     classes: "purple",
-      //   },
-      //   {
-      //     id: "foo",
-      //     startDate: this.thisMonth(29),
-      //     title: "Same day 1",
-      //   },
-      //   {
-      //     id: "e6",
-      //     startDate: this.thisMonth(29),
-      //     title: "Same day 2",
-      //     classes: "orange",
-      //   },
-      //   {
-      //     id: "e7",
-      //     startDate: this.thisMonth(29),
-      //     title: "Same day 3",
-      //   },
-      //   {
-      //     id: "e8",
-      //     startDate: this.thisMonth(29),
-      //     title: "Same day 4",
-      //     classes: "orange",
-      //   },
-      //   {
-      //     id: "e9",
-      //     startDate: this.thisMonth(29),
-      //     title: "Same day 5",
-      //   },
-      //   {
-      //     id: "e10",
-      //     startDate: this.thisMonth(29),
-      //     title: "Same day 6",
-      //     classes: "orange",
-      //   },
-      //   {
-      //     id: "e11",
-      //     startDate: this.thisMonth(29),
-      //     title: "Same day 7",
-      //   },
-      // ],
+      //     startDate: "2022-06-02",
+      //     title: "prueba",
+      //    },
+      //    ],
     };
   },
   computed: {
@@ -284,45 +204,26 @@ export default {
         "holiday-us-official": this.useHolidayTheme,
       };
     },
-    myDateClasses() {
-      // This was added to demonstrate the dateClasses prop. Note in particular that the
-      // keys of the object are `yyyy-mm-dd` ISO date strings (not dates), and the values
-      // for those keys are strings or string arrays. Keep in mind that your CSS to style these
-      // may need to be fairly specific to make it override your theme's styles. See the
-      // CSS at the bottom of this component to see how these are styled.
-      const o = {};
-      const theFirst = this.thisMonth(1);
-      const ides = [2, 4, 6, 9].includes(theFirst.getMonth()) ? 15 : 13;
-      const idesDate = this.thisMonth(ides);
-      o[CalendarMath.isoYearMonthDay(idesDate)] = "ides";
-      o[CalendarMath.isoYearMonthDay(this.thisMonth(21))] = [
-        "do-you-remember",
-        "the-21st",
-      ];
-      return o;
-    },
   },
   mounted() {
     this.newItemStartDate = CalendarMath.isoYearMonthDay(CalendarMath.today());
     this.newItemEndDate = CalendarMath.isoYearMonthDay(CalendarMath.today());
-    //GET important dates from database
-    axios.get("http://localhost:3000/important_dates.json").then((response) => {
-      this.importantDates = response.data;
-      console.log(this.importantDates);
-    });
-    // for (let i = 0; i < this.importantDates.length; i++) {
-    //   let name = this.importantDates[i].name;
-    //   let dateId = this.importantDates[i].id;
-    //   let date = this.importantDates[i].date;
-    //   let newDate = {
-    //     id: dateId,
-    //     title: name,
-    //     startDate: date,
-    //   };
-    //   this.items.push(newDate);
-    //   console.log(newDate);
-    // }
-    //console.log(this.items);
+    // GET important dates based on the project id
+    axios
+      .get(`http://localhost:3000/get_important_dates/${this.projectId}.json`)
+      .then((response) => {
+        //console.log(response.data);
+        response.data.forEach((item) => {
+          let newDate = {
+            id: item.id,
+            startDate: item.date,
+            title: item.name + ":\n" + item.description,
+            description: item.description,
+          };
+          this.items.push(newDate);
+        });
+        console.log(this.items);
+      });
   },
   methods: {
     thisMonth(d, h, m) {
@@ -366,8 +267,27 @@ export default {
         endDate: this.newItemEndDate,
         title: this.newItemTitle,
         id: "e" + Math.random().toString(36).substr(2, 10),
+        description: this.newItemDescription,
       });
-      this.message = "You added a calendar item!";
+      //this.message = "You added a calendar item!";
+      let newDate = {
+        date: this.newItemStartDate,
+        description: this.newItemDescription,
+        name: this.newItemTitle,
+        project_id: this.projectId,
+      };
+      axios
+        .post("http://127.0.0.1:3000/important_dates.json", {
+          important_date: newDate,
+        })
+        .then((res) => {
+          this.success = true;
+          this.$swal("Date added successfully");
+        })
+        .catch((error) => {
+          this.error = error.data;
+          this.$swal("Failed to add date, check date fields");
+        });
     },
   },
   // TODO: Make a POST to database in table important_dates

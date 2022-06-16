@@ -11,7 +11,7 @@
 <script>
 import TableProjects from "@/components/TableProjects.vue";
 import HeaderNav from "@/components/HeaderNav.vue";
-import axios from 'axios';
+import axios from "axios";
 
 export default {
   // mounted() {
@@ -29,7 +29,7 @@ export default {
 </script>
 
 <style scoped>
-.add-button a{
+.add-button a {
   margin-top: 3%;
   text-decoration: none;
   color: black;

@@ -18,8 +18,10 @@
             <button class="button is-danger delete">Delete</button>
           </th>
           <th>{{ column.name }}</th>
-          <th>project manager</th>
-          <th>team</th>
+          <th></th>
+          <th>{{ getTeamMembers(projectId, column.id) }}</th>
+          <!-- <th>project manager</th>
+          <th>team</th> -->
           <th>{{ column.start_date }}</th>
           <th>{{ column.finish_date }}</th>
           <th>{{ column.description }}</th>
@@ -40,7 +42,7 @@ export default {
       .get(`http://localhost:3000/all_project_phases/${this.projectId}.json`)
       .then((response) => {
         this.phases = response.data;
-        console.log(this.phases);
+        //console.log(this.phases);
       });
   },
   data() {
@@ -50,6 +52,14 @@ export default {
   },
   methods: {
     //TODO: Make a GET to phases and project phases to show all phases from a project
+    getTeamMembers(projectId, phaseId) {
+      axios
+        .get(`http://localhost:3000/get_team/${projectId}/${phaseId}.json`)
+        .then((response) => {
+          //return response.data;
+          console.log(response.data);
+        });
+    },
   },
 };
 </script>

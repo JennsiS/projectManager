@@ -38,7 +38,7 @@ class ImportantDatesController < ApplicationController
   def get_dates_by_project
     return if params[:project_id].blank?
 
-    @important_date = ImportantDate.find params[:project_id]
+    @important_date = ImportantDate.where(project_id: params[:project_id])
     
     respond_to do |format|
       format.json { render json: @important_date, stauts: :ok}
