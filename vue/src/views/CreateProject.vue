@@ -142,6 +142,7 @@ export default {
       projectProgress: "",
       success: false,
       error: false,
+      newProjectId: "",
     };
   },
   mounted() {
@@ -151,11 +152,12 @@ export default {
         this.users.push(item.email);
       });
       this.allUsersInfo = response.data;
-      console.log(this.allUsersInfo);
+      //console.log(this.allUsersInfo);
     });
   },
   methods: {
     createNewProject() {
+      //console.log(this.valueTeam)
       const newProject = {
         title: this.projectTitle,
         description: this.projectDescription,
@@ -171,6 +173,36 @@ export default {
         .post("http://127.0.0.1:3000/projects.json", { project: newProject })
         .then((res) => {
           this.success = true;
+          console.log(res.data.id);
+          this.newProjectId = res.data.id;
+
+          this.allUsersInfo.forEach((user) => {
+            if (user.email === this.valuePM) {
+              this.userIdRelation = user.id;
+            }
+          });
+
+          let newRelation = {
+            user_id: this.userIdRelation,
+            project_id: this.newProjectId,
+            rol_project_user: "Project Manager",
+          };
+          console.log(newRelation);
+
+          //Make a POST to users_projects table for Project manager
+          axios
+            .post("http://127.0.0.1:3000/users_projects.json", {
+              users_project: newRelation,
+            })
+            .then((res) => {
+              this.success = true;
+              this.$swal("Members added succesfully");
+            })
+            .catch((error) => {
+              this.error = error.data;
+              this.$swal("Failed to add members, check fields");
+            });
+
           this.$swal("Project created successfully");
         })
         .catch((error) => {

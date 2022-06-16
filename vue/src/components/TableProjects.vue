@@ -5,13 +5,14 @@
         <tr>
           <th></th>
           <th></th>
+          <!-- <th></th> -->
           <th>{{ "Name" }}</th>
           <th>{{ "Project manager" }}</th>
           <th>{{ "Team" }}</th>
           <th>{{ "Start Date" }}</th>
           <th>{{ "End Date" }}</th>
           <th>{{ "State" }}</th>
-          <th>{{ "Progress" }}</th>
+          <!-- <th>{{ "Progress" }}</th> -->
         </tr>
       </thead>
       <tbody>
@@ -32,18 +33,18 @@
             </button>
           </th>
           <th>{{ column.title }}</th>
-          <th></th>
-          <!-- <th>{{ getTeamMembers(column.id) }}</th> -->
+          <!-- <th></th> -->
+          <th>{{ getTeamMembers(column.id) }}</th>
           <th>{{ column.team }}</th>
           <th>{{ column.start_date }}</th>
           <th>{{ column.finish_date }}</th>
           <th>{{ column.state }}</th>
-          <th>
+          <!-- <th>
             <progress class="progress is-primary" value="15" max="100">
-              <!-- {{ column.project.progress }} -->
+              {{ column.project.progress }}
               15%
             </progress>
-          </th>
+          </th> -->
         </tr>
       </tbody>
     </table>
@@ -63,12 +64,13 @@ export default {
       response.data.forEach((item) => {
         this.projectsIds.push(item.id);
       });
-      console.log(this.projectsIds);
+      //console.log(this.projectsIds);
     });
 
     // GET relations between projects and users from database
     axios.get("http://localhost:3000/users_projects.json").then((response) => {
       this.team = response.data;
+      //console.log(this.team);
     });
 
     // GET users
@@ -82,6 +84,7 @@ export default {
       users: [],
       team: [],
       projectsIds: [],
+      relationData: [],
     };
   },
   methods: {
@@ -99,13 +102,23 @@ export default {
 
     getTeamMembers(projectId) {
       axios
-        .get(`http://localhost:3000/team_members/${projectId}.json`)
+        .get(`http://localhost:3000/get_team/${projectId}.json`)
         .then((response) => {
-          //console.log(response.data);
+          response.data.forEach((user) => {
+            this.relationData.push({
+              user_id: user.user_id,
+              project_id: projectId,
+            });
+            //console.log(user.user_id)
+          });
+
+          //console.log(response.data[0].user_id);
+          //console.log(response.data)
           //this.team.push(response.data);
         });
+      console.log(this.relationData);
       //console.log(this.team);
-      return this.team;
+      //return this.team;
     },
     getProjectManager() {},
   },

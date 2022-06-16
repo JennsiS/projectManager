@@ -11,4 +11,22 @@ class UsersController < ApplicationController
        end
       
     end
+
+    def get_users
+        return if params[:project_id].blank?
+    
+        p = Project.find(params[:project_id])
+        
+        respond_to do |format|
+          format.json { render json: p.phases, stauts: :ok}
+        end
+    end
+
+    def get_user_id
+        return if params[:email].blank?
+        format.json do
+            render json: User.select("id").where(email:params[:email])
+        end
+    end
+
 end

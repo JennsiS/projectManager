@@ -7,7 +7,12 @@ Rails.application.routes.draw do
   resources :projects
   resources :roles
   resources :users
-  devise_for :users
+ # devise_for :users
+  devise_for :users,
+             controllers: {
+               sessions: 'users/sessions',
+               registrations: 'users/registrations'
+             }
   # get 'home/index'
   # get 'home/about'
   root 'home#index'
@@ -19,5 +24,9 @@ Rails.application.routes.draw do
   get '/team_members/:project_id', to: 'projects#get_team'
   get '/get_important_dates/:project_id', to: 'important_dates#get_dates_by_project'
   get '/get_team/:project_id/:phase_id', to: 'projects_phases#get_team_phases'
+  get '/get_team/:project_id/', to: 'users_projects#get_members'
+  get '/get_last_project', to: 'projects#get_last_id'
+
+  get '/get_user_id/:email', to: 'users#get_user_id'
 
 end

@@ -72,6 +72,17 @@ class UsersProjectsController < ApplicationController
     end
   end
 
+  def get_members 
+    return if params[:project_id].blank?
+
+    @users_project = UsersProject.where(rol_project_user: "Member", project_id: params[:project_id] ).select("user_id")
+
+    respond_to do |format|
+      format.json { render json: @users_project, stauts: :ok}
+    end
+  
+  end
+
   def createRelation
     #return if params[:project_id].blank?
     users = [:user_id]

@@ -100,6 +100,8 @@ export default {
       users: [],
       allUsersInfo: [],
       projectId: this.$route.params.id,
+      newPhaseId: "",
+      userIdPM: "",
     };
   },
   mounted() {
@@ -122,11 +124,41 @@ export default {
       };
       console.log(newPhase);
 
-      //Making a post to projects table
+      //Making a post to phases table
       axios
         .post("http://127.0.0.1:3000/phases.json", { phase: newPhase })
         .then((res) => {
           this.success = true;
+
+          //Get the id of the new phase created
+          this.newPhaseId = res.data.id;
+
+          this.allUsersInfo.forEach((user) => {
+            if (user.email === this.valuePM) {
+              this.userIdPM = user.id;
+            }
+          });
+
+          let relationPM = {
+            user_id: this.userIdPM,
+            phase_id: this.newPhaseId,
+            project_id: Number(this.projectId),
+            role_user: "Project Manager",
+          };
+          console.log(relationPM);
+
+          //Make a POST to users_projects table for Project manager
+          axios
+            .post("http://127.0.0.1:3000/projects_phases.json", relationPM )
+            .then((res) => {
+              this.success = true;
+              this.$swal("Members added succesfully");
+            })
+            .catch((error) => {
+              this.error = error.data;
+              this.$swal("Failed to add members, check fields");
+            });
+
           this.$swal("Phase created successfully");
         })
         .catch((error) => {
@@ -134,7 +166,7 @@ export default {
           this.$swal("Failed to create phase, check phase fields");
         });
 
-      //TODO: Make a POST to users_projects table
+      //TODO: Make a POST to project_phases table
       // axios
       //   .post("http://127.0.0.1:3000/users_projects.json", { users_project: newProject })
       //   .then((res) => {

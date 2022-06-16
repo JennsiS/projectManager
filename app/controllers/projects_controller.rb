@@ -86,6 +86,24 @@ class ProjectsController < ApplicationController
     end
   end
 
+
+  def get_team_members
+    return if params[:project_id].blank?
+
+    p = Project.find(params[:project_id])
+    
+    respond_to do |format|
+      format.json { render json: p.users, stauts: :ok}
+    end
+  end
+
+  def get_last_id 
+    p = Project.select("id").last
+    respond_to do |format|
+      format.json { render json: p, stauts: :ok}
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_project
