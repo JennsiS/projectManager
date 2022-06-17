@@ -5,7 +5,7 @@
         <tr>
           <th></th>
           <th></th>
-          <!-- <th></th> -->
+          <th></th>
           <th>{{ "Name" }}</th>
           <th>{{ "Project manager" }}</th>
           <th>{{ "Team" }}</th>
@@ -27,9 +27,18 @@
           <th>
             <button
               class="button is-danger delete"
-              v-on:click="deleteProject(column.id)"
+              v-on:click="deleteProject(column.id, column.title)"
             >
               Delete
+            </button>
+          </th>
+          <th>
+            <button class="button is-warning">
+              <router-link
+                :to="{ name: 'EditProject', params: { id: column.id } }"
+              >
+                <font-awesome-icon icon="fa-solid fa-pen-to-square" />
+              </router-link>
             </button>
           </th>
           <th>{{ column.title }}</th>
@@ -40,8 +49,12 @@
           <th>{{ column.finish_date }}</th>
           <th>{{ column.state }}</th>
           <!-- <th>
-            <progress class="progress is-primary" value="15" max="100">
-              {{ column.project.progress }}
+            <progress
+              class="progress is-primary"
+              value= "100"
+              max="100"
+            >
+              {{ column.progress }}
               15%
             </progress>
           </th> -->
@@ -88,15 +101,12 @@ export default {
     };
   },
   methods: {
-    deleteProject(projectId) {
+    deleteProject(projectId, projectTitle) {
       axios
         .delete("http://localhost:3000/projects/" + projectId + ".json")
         .then(
-          () =>
-            this.$swal(
-              "Project with id: " + projectId + " removed successfully"
-            ),
-          this.$forceUpdate()
+          () => location.reload(),
+          this.$swal(`Project "` + projectTitle + `" removed successfully`)
         );
     },
 

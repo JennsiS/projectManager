@@ -13,7 +13,12 @@ import "bootstrap/dist/css/bootstrap.css";
 import "timeline-vuejs/dist/timeline-vuejs.css";
 import VueSweetalert2 from "vue-sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
-//import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { fas } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+
+library.add(fas);
 
 let localAuthToken = localStorage.auth_token;
 let cookieExists = localAuthToken !== "undefined" && localAuthToken !== null;
@@ -30,7 +35,7 @@ app.use(router);
 app.use(VueSweetalert2);
 app.use(store);
 
-//app.use("font-awesome-icon", FontAwesomeIcon);
+app.component("font-awesome-icon", FontAwesomeIcon);
 
 //Vue.use(router);
 

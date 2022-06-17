@@ -14,12 +14,21 @@
     <title>Project Manager</title>
   </head>
   <body>
+      <%= render 'home/header'%>
+    <div class ="container">
+
+      <%# Import alerts element created with bootstrap %>
+      <% if notice %>
+        <%= render 'layouts/alerts'%>
+      <% end %>
+
+      <%= yield %>
 
     <%# Import header element created with bootstrap %>
-    <div id="vue-container">
-      <App/>
-      <%= javascript_include_tag "vue/index/index" %>
-    </div>
+    <%# <div id="vue-container">
+      <App/> %>
+      <%# <%= javascript_include_tag "vue/index/index" %>
+    <%# </div>  %>
 
   </body>
 </html>

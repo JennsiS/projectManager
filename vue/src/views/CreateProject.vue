@@ -143,6 +143,7 @@ export default {
       success: false,
       error: false,
       newProjectId: "",
+      usersTeamIds: [],
     };
   },
   mounted() {
@@ -182,28 +183,67 @@ export default {
             }
           });
 
-          let newRelation = {
+          let newRelationPM = {
             user_id: this.userIdRelation,
             project_id: this.newProjectId,
             rol_project_user: "Project Manager",
           };
-          console.log(newRelation);
+          console.log(newRelationPM);
 
           //Make a POST to users_projects table for Project manager
           axios
             .post("http://127.0.0.1:3000/users_projects.json", {
-              users_project: newRelation,
+              users_project: newRelationPM,
             })
             .then((res) => {
               this.success = true;
-              this.$swal("Members added succesfully");
+              //this.$swal("Members added succesfully");
+              console.log("Members added succesfully");
             })
             .catch((error) => {
               this.error = error.data;
-              this.$swal("Failed to add members, check fields");
+              //this.$swal("Failed to add members, check fields");
+              console.log("Failed to add members, check fields");
             });
 
+          //Make a POST to users_projects table for team members
+          this.allUsersInfo.forEach((user) => {
+            this.valueTeam.forEach((member) => {
+              if (user.email === member) {
+                this.usersTeamIds.push(user.id);
+              }
+            });
+          });
+
+          this.usersTeamIds.forEach((userId) => {
+            let newRelationMember = {
+              user_id: userId,
+              project_id: this.newProjectId,
+              rol_project_user: "Member",
+            };
+            console.log(newRelationMember);
+            axios
+              .post("http://127.0.0.1:3000/users_projects.json", {
+                users_project: newRelationMember,
+              })
+              .then((res) => {
+                this.success = true;
+                //this.$swal("Members added succesfully");
+                console.log("Members added succesfully");
+              })
+              .catch((error) => {
+                this.error = error.data;
+                //this.$swal("Failed to add members, check fields");
+                console.log("Failed to add members, check fields");
+              });
+          });
+
           this.$swal("Project created successfully");
+          this.projectTitle = "";
+          this.projectDescription = "";
+          this.valueTeam = null;
+          this.valuePM = null;
+          this.projectProgress = "";
         })
         .catch((error) => {
           this.error = error.data;
@@ -219,15 +259,6 @@ export default {
       //   .catch((error) => {
       //     this.error = error.data;
       //   });
-    },
-
-    // Make a POST to database in users_projects table
-    createNewProjectUser() {
-      let newRelation = {
-        user_id: "",
-        project_id: "",
-        rol_project_user: "",
-      };
     },
   },
 };

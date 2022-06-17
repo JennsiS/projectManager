@@ -15,7 +15,12 @@
       <tbody>
         <tr v-for="column in phases" :key="column">
           <th>
-            <button class="button is-danger delete">Delete</button>
+            <button
+              class="button is-danger delete"
+              v-on:click="deletePhase(column.id, column.name)"
+            >
+              Delete
+            </button>
           </th>
           <th>{{ column.name }}</th>
           <th></th>
@@ -60,6 +65,15 @@ export default {
           console.log(response.data);
         });
     },
+
+    deletePhase(phaseId, phaseName) {
+      axios
+        .delete("http://localhost:3000/phases/" + phaseId + ".json")
+        .then(
+          () => location.reload(),
+          this.$swal(`Phase "` + phaseName + `" removed successfully`)
+        );
+    }
   },
 };
 </script>
