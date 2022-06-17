@@ -88,7 +88,7 @@ import ProjectOptions from "../components/ProjectOptions.vue";
 import Multiselect from "@vueform/multiselect";
 import axios from "axios";
 //const baseURL = "http://localhost:3000";
-const baseURL = "https://projects-api-20.herokuapp.com";
+const baseURL = "http://projects-api-20.herokuapp.com";
 
 export default {
   components: {

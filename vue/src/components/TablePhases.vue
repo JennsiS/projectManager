@@ -4,9 +4,10 @@
       <thead>
         <tr>
           <th></th>
+          
           <th>{{ "Name" }}</th>
-          <th>{{ "Project manager" }}</th>
-          <th>{{ "Team" }}</th>
+          <!-- <th>{{ "Project manager" }}</th>
+          <th>{{ "Team" }}</th> -->
           <th>{{ "Start Date" }}</th>
           <th>{{ "End Date" }}</th>
           <th>{{ "Description" }}</th>
@@ -23,8 +24,8 @@
             </button>
           </th>
           <th>{{ column.name }}</th>
-          <th></th>
-          <th>{{ getTeamMembers(projectId, column.id) }}</th>
+          <!-- <th></th> -->
+          <!-- <th>{{ getTeamMembers(projectId, column.id) }}</th> -->
           <!-- <th>project manager</th>
           <th>team</th> -->
           <th>{{ column.start_date }}</th>
@@ -39,7 +40,7 @@
 <script>
 import axios from "axios";
 //const baseURL = "http://localhost:3000";
-const baseURL = "https://projects-api-20.herokuapp.com";
+const baseURL = "http://projects-api-20.herokuapp.com";
 
 export default {
   props: { projectId: String },
