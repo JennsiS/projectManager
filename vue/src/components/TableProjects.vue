@@ -43,7 +43,7 @@
           </th>
           <th>{{ column.title }}</th>
           <!-- <th></th> -->
-          <th>{{ getTeamMembers(column.id) }}</th>
+          <th>{{ getProjectManager(2) }}</th>
           <th>{{ column.team }}</th>
           <th>{{ column.start_date }}</th>
           <th>{{ column.finish_date }}</th>
@@ -66,13 +66,14 @@
 
 <script>
 import axios from "axios";
+const baseURL = "http://localhost:3000";
 export default {
   setup() {
     //let projects = [];
   },
   mounted() {
     //GET actual projects from database
-    axios.get("http://localhost:3000/projects.json").then((response) => {
+    axios.get(`${baseURL}/projects.json`).then((response) => {
       this.projects = response.data;
       response.data.forEach((item) => {
         this.projectsIds.push(item.id);
@@ -81,15 +82,22 @@ export default {
     });
 
     // GET relations between projects and users from database
-    axios.get("http://localhost:3000/users_projects.json").then((response) => {
+    axios.get(`${baseURL}/users_projects.json`).then((response) => {
       this.team = response.data;
-      //console.log(this.team);
+      console.log(this.team);
     });
 
-    // GET users
-    // axios.get("http://localhost:3000/users_projects.json").then((response) => {
-    //   this.team = response.data.list;
-    // });
+    // console.log(this.projectsIds)
+    // this.projectsIds.forEach((projectId)=>{
+    //   console.log(projectId)
+    //   // axios.get(`http://localhost:3000/get_project_manager/${projectId}.json`)
+    //   // .then((response) => {
+    //   //   //this.team = response.data;
+    //   //   this.relationData.push({project: projectId, user: response.data})
+
+    //   // })
+
+    // })
   },
   data() {
     return {
@@ -101,9 +109,18 @@ export default {
     };
   },
   methods: {
+    getProjectManager(projectId) {
+      axios
+        .get(`${baseURL}/get_project_manager/${projectId}.json`)
+        .then((response) => {
+          //this.team = response.data;
+          console.log(response.data);
+          return response.data;
+        });
+    },
     deleteProject(projectId, projectTitle) {
       axios
-        .delete("http://localhost:3000/projects/" + projectId + ".json")
+        .delete(`${baseURL}/projects/` + projectId + ".json")
         .then(
           () => location.reload(),
           this.$swal(`Project "` + projectTitle + `" removed successfully`)
@@ -111,26 +128,23 @@ export default {
     },
 
     getTeamMembers(projectId) {
-      axios
-        .get(`http://localhost:3000/get_team/${projectId}.json`)
-        .then((response) => {
-          response.data.forEach((user) => {
-            this.relationData.push({
-              user_id: user.user_id,
-              project_id: projectId,
-            });
-            //console.log(user.user_id)
+      axios.get(`${baseURL}/get_team/${projectId}.json`).then((response) => {
+        response.data.forEach((user) => {
+          this.relationData.push({
+            user_id: user.user_id,
+            project_id: projectId,
           });
-
-          //console.log(response.data[0].user_id);
-          //console.log(response.data)
-          //this.team.push(response.data);
+          //console.log(user.user_id)
         });
+
+        //console.log(response.data[0].user_id);
+        //console.log(response.data)
+        //this.team.push(response.data);
+      });
       console.log(this.relationData);
       //console.log(this.team);
       //return this.team;
     },
-    getProjectManager() {},
   },
 };
 </script>

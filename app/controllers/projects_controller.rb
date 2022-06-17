@@ -70,9 +70,10 @@ class ProjectsController < ApplicationController
     return if params[:project_id].blank?
 
     p = Project.find(params[:project_id])
+    @phases = p.phases
     
     respond_to do |format|
-      format.json { render json: p.phases, stauts: :ok}
+      format.json { render json: @phases, stauts: :ok}
     end
   end
 

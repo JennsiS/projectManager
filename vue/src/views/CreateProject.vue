@@ -119,6 +119,7 @@ import "bulma-calendar/dist/css/bulma-calendar.min.css";
 import Multiselect from "@vueform/multiselect";
 import HeaderNav from "@/components/HeaderNav.vue";
 import axios from "axios";
+const baseURL = "http://localhost:3000";
 
 export default {
   components: {
@@ -148,7 +149,7 @@ export default {
   },
   mounted() {
     //GET users for adding members to the project
-    axios.get("http://localhost:3000/users.json").then((response) => {
+    axios.get(`${baseURL}/users.json`).then((response) => {
       response.data.forEach((item) => {
         this.users.push(item.email);
       });
@@ -171,7 +172,7 @@ export default {
 
       //Making a post to projects table
       axios
-        .post("http://127.0.0.1:3000/projects.json", { project: newProject })
+        .post(`${baseURL}/projects.json`, { project: newProject })
         .then((res) => {
           this.success = true;
           console.log(res.data.id);
@@ -192,7 +193,7 @@ export default {
 
           //Make a POST to users_projects table for Project manager
           axios
-            .post("http://127.0.0.1:3000/users_projects.json", {
+            .post(`${baseURL}/users_projects.json`, {
               users_project: newRelationPM,
             })
             .then((res) => {
@@ -223,7 +224,7 @@ export default {
             };
             console.log(newRelationMember);
             axios
-              .post("http://127.0.0.1:3000/users_projects.json", {
+              .post(`${baseURL}/users_projects.json`, {
                 users_project: newRelationMember,
               })
               .then((res) => {
@@ -249,16 +250,6 @@ export default {
           this.error = error.data;
           this.$swal("Failed to create project, check project fields");
         });
-
-      //TODO: Make a POST to users_projects table
-      // axios
-      //   .post("http://127.0.0.1:3000/users_projects.json", { users_project: newProject })
-      //   .then((res) => {
-      //     this.success = true;
-      //   })
-      //   .catch((error) => {
-      //     this.error = error.data;
-      //   });
     },
   },
 };

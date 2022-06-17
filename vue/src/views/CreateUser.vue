@@ -56,7 +56,8 @@
 
 <script>
 import HeaderNav from "@/components/HeaderNav.vue";
-import axios from 'axios';
+import axios from "axios";
+const baseURL = "http://localhost:3000";
 
 export default {
   components: {
@@ -71,14 +72,14 @@ export default {
     //TODO: Make a POST to database to users table
     //TODO: Make a POST to users_roles table
   },
-  mounted(){
-    axios.get("http://localhost:3000/roles.json").then((response) => {
+  mounted() {
+    axios.get(`${baseURL}/roles.json`).then((response) => {
       response.data.forEach((item) => {
         this.roles.push(item.name);
       });
       console.log(this.roles);
     });
-  }
+  },
 };
 </script>
 

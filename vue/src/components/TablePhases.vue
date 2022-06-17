@@ -38,13 +38,14 @@
 
 <script>
 import axios from "axios";
+const baseURL = "http://localhost:3000";
 
 export default {
   props: { projectId: String },
   mounted() {
     //GET actual projects from database
     axios
-      .get(`http://localhost:3000/all_project_phases/${this.projectId}.json`)
+      .get(`${baseURL}/all_project_phases/${this.projectId}.json`)
       .then((response) => {
         this.phases = response.data;
         //console.log(this.phases);
@@ -59,7 +60,7 @@ export default {
     //TODO: Make a GET to phases and project phases to show all phases from a project
     getTeamMembers(projectId, phaseId) {
       axios
-        .get(`http://localhost:3000/get_team/${projectId}/${phaseId}.json`)
+        .get(`${baseURL}/get_team/${projectId}/${phaseId}.json`)
         .then((response) => {
           //return response.data;
           console.log(response.data);
@@ -68,12 +69,12 @@ export default {
 
     deletePhase(phaseId, phaseName) {
       axios
-        .delete("http://localhost:3000/phases/" + phaseId + ".json")
+        .delete(`${baseURL}/phases/` + phaseId + ".json")
         .then(
           () => location.reload(),
           this.$swal(`Phase "` + phaseName + `" removed successfully`)
         );
-    }
+    },
   },
 };
 </script>

@@ -93,6 +93,7 @@
 import "bulma-calendar/dist/css/bulma-calendar.min.css";
 import HeaderNav from "@/components/HeaderNav.vue";
 import axios from "axios";
+const baseURL = "http://localhost:3000";
 
 export default {
   components: {
@@ -116,17 +117,15 @@ export default {
   },
   mounted() {
     //GET project
-    axios
-      .get(`http://localhost:3000/projects/${this.projectId}.json`)
-      .then((response) => {
-        console.log(response.data);
-        this.projectTitle = response.data.title;
-        this.projectDescription = response.data.description;
-        this.startDate = response.data.start_date;
-        this.endDate = response.data.finish_date;
-        this.projectState = response.data.state;
-        this.projectProgress = response.data.progress;
-      });
+    axios.get(`${baseURL}/projects/${this.projectId}.json`).then((response) => {
+      console.log(response.data);
+      this.projectTitle = response.data.title;
+      this.projectDescription = response.data.description;
+      this.startDate = response.data.start_date;
+      this.endDate = response.data.finish_date;
+      this.projectState = response.data.state;
+      this.projectProgress = response.data.progress;
+    });
   },
   methods: {
     updateProject() {
@@ -140,7 +139,9 @@ export default {
       };
 
       axios
-        .put(`http://127.0.0.1:3000/projects/${this.projectId}.json`,  { project: newProject })
+        .put(`http://127.0.0.1:3000/projects/${this.projectId}.json`, {
+          project: newProject,
+        })
         .then((res) => {
           this.success = true;
           this.$swal("Updated successfully");

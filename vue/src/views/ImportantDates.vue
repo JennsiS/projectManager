@@ -147,6 +147,7 @@ import "../../node_modules/vue-simple-calendar/dist/style.css";
 import ProjectOptions from "../components/ProjectOptions.vue";
 import HeaderNav from "../components/HeaderNav.vue";
 import axios from "axios";
+const baseURL = "http://localhost:3000";
 
 export default {
   name: "App",
@@ -210,7 +211,7 @@ export default {
     this.newItemEndDate = CalendarMath.isoYearMonthDay(CalendarMath.today());
     // GET important dates based on the project id
     axios
-      .get(`http://localhost:3000/get_important_dates/${this.projectId}.json`)
+      .get(`${baseURL}/get_important_dates/${this.projectId}.json`)
       .then((response) => {
         //console.log(response.data);
         response.data.forEach((item) => {
@@ -277,7 +278,7 @@ export default {
         project_id: this.projectId,
       };
       axios
-        .post("http://127.0.0.1:3000/important_dates.json", {
+        .post(`${baseURL}/important_dates.json`, {
           important_date: newDate,
         })
         .then((res) => {

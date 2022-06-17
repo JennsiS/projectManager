@@ -72,7 +72,11 @@
           </button>
         </div>
         <div class="control">
-          <button class="button is-link is-light">Cancel</button>
+          <button class="button is-link is-light">
+            <router-link :to="{ path: `/Phases/${this.projectId}` }">
+              Cancel
+            </router-link>
+          </button>
         </div>
       </div>
     </form>
@@ -83,6 +87,7 @@
 import ProjectOptions from "../components/ProjectOptions.vue";
 import Multiselect from "@vueform/multiselect";
 import axios from "axios";
+const baseURL = "http://localhost:3000";
 
 export default {
   components: {
@@ -102,11 +107,12 @@ export default {
       projectId: this.$route.params.id,
       newPhaseId: "",
       userIdPM: "",
+      usersTeamIds: [],
     };
   },
   mounted() {
     //GET users for selecting members the new phase
-    axios.get("http://localhost:3000/users.json").then((response) => {
+    axios.get(`${baseURL}/users.json`).then((response) => {
       response.data.forEach((item) => {
         this.users.push(item.email);
       });
@@ -126,7 +132,7 @@ export default {
 
       //Making a post to phases table
       axios
-        .post("http://127.0.0.1:3000/phases.json", { phase: newPhase })
+        .post(`${baseURL}/phases.json`, { phase: newPhase })
         .then((res) => {
           this.success = true;
 
@@ -145,40 +151,65 @@ export default {
             project_id: Number(this.projectId),
             role_user: "Project Manager",
           };
-          console.log(relationPM);
+          //console.log(relationPM);
 
           //Make a POST to users_projects table for Project manager
           axios
-            .post("http://127.0.0.1:3000/projects_phases.json", relationPM )
+            .post(`${baseURL}/projects_phases.json`, relationPM)
             .then((res) => {
               this.success = true;
-              this.$swal("Members added succesfully");
+              //this.$swal("Members added succesfully");
             })
             .catch((error) => {
               this.error = error.data;
-              this.$swal("Failed to add members, check fields");
+              //this.$swal("Failed to add members, check fields");
             });
 
+          //Make a POST to users_projects table for members
+
+          this.allUsersInfo.forEach((user) => {
+            this.valueTeam.forEach((member) => {
+              if (user.email === member) {
+                this.usersTeamIds.push(user.id);
+              }
+            });
+          });
+
+          this.usersTeamIds.forEach((userId) => {
+            let newRelationMember = {
+              user_id: userId,
+              phase_id: this.newPhaseId,
+              project_id: Number(this.projectId),
+              role_user: "Member",
+            };
+            console.log(newRelationMember);
+            axios
+              .post(`${baseURL}/projects_phases.json`, newRelationMember)
+              .then((res) => {
+                this.success = true;
+                //this.$swal("Members added succesfully");
+                console.log("Members added succesfully");
+              })
+              .catch((error) => {
+                this.error = error.data;
+                //this.$swal("Failed to add members, check fields");
+                console.log("Failed to add members, check fields");
+              });
+          });
+
           this.$swal("Phase created successfully");
+          this.phaseName = "";
+          this.phaseDescription = "";
+          this.valuePM = null;
+          this.valueTeam = null;
+          this.startDate = new Date();
+          this.endDate = new Date();
         })
         .catch((error) => {
           this.error = error.data;
           this.$swal("Failed to create phase, check phase fields");
         });
-
-      //TODO: Make a POST to project_phases table
-      // axios
-      //   .post("http://127.0.0.1:3000/users_projects.json", { users_project: newProject })
-      //   .then((res) => {
-      //     this.success = true;
-      //   })
-      //   .catch((error) => {
-      //     this.error = error.data;
-      //   });
     },
-
-    //TODO: Make a POST to add a new phase to Phases table and projects_phases
-    //TODO: Make a GER to database to phases, projects_phases, and users
   },
 };
 </script>

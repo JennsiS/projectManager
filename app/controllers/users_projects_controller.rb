@@ -72,10 +72,10 @@ class UsersProjectsController < ApplicationController
     end
   end
 
-  def get_members 
+  def get_PM
     return if params[:project_id].blank?
 
-    @users_project = UsersProject.where(rol_project_user: "Member", project_id: params[:project_id] ).select("user_id")
+    @users_project = UsersProject.where(project_id: params[:project_id], rol_project_user:"Project Manager").select("user_id")
 
     respond_to do |format|
       format.json { render json: @users_project, stauts: :ok}

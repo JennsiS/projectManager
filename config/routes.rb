@@ -27,6 +27,6 @@ Rails.application.routes.draw do
   get '/get_team/:project_id/', to: 'users_projects#get_members'
   get '/get_last_project', to: 'projects#get_last_id'
 
-  get '/get_user_id/:email', to: 'users#get_user_id'
+  get '/get_project_manager/:project_id', to: 'users_projects#get_PM'
 
 end

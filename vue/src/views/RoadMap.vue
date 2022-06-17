@@ -8,11 +8,11 @@
         <span class="tag is-medium is-primary">Start</span>
       </header>
 
-      <div class="timeline-item" v-for="phase in phases" :key="phase">
+      <div class="timeline-item" v-for="element in phases" :key="element">
         <div class="timeline-marker is-primary"></div>
         <div class="timeline-content">
-          <p class="heading">{{ phase.name }}</p>
-          <p>{{ phase.start_date }}</p>
+          <p class="heading">{{ element.name }}</p>
+          <p>{{ element.start_date }}</p>
         </div>
       </div>
       <!-- 
@@ -48,29 +48,20 @@
 import ProjectOptions from "../components/ProjectOptions.vue";
 import HeaderNav from "@/components/HeaderNav.vue";
 import axios from "axios";
+const baseURL = "http://localhost:3000";
 
 export default {
   mounted() {
-    // axios
-    //   .get(`http://localhost:3000/projects_phases/${this.projectId}`, {
-    //     params: { project_id: this.projectId },
-    //   })
-    //   .then((response) => {
-    //     response.data.forEach((item) => {
-    //       this.phases_ids.push(item.phase_id);
-    //     });
-    //     //this.projects = response.data;
-    //     console.log(this.phases_ids);
-    //   });
-
     //Using get phases by project id route
     axios
-      .get(`http://localhost:3000/all_project_phases/${this.projectId}.json`)
+      .get(`${baseURL}/all_project_phases/${this.projectId}.json`)
       .then((response) => {
         console.log(response.data);
-        this.phases.push(response.data);
+        response.data.forEach((item) => {
+          this.phases.push(item);
+        });
       });
-    console.log(this.phases);
+    //console.log(this.phases);
   },
 
   methods: {},
