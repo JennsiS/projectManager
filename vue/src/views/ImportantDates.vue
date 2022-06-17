@@ -148,7 +148,7 @@ import ProjectOptions from "../components/ProjectOptions.vue";
 import HeaderNav from "../components/HeaderNav.vue";
 import axios from "axios";
 //const baseURL = "http://localhost:3000";
-const baseURL = "http://projects-api-20.herokuapp.com";
+const baseURL = "https://projects-api-20.herokuapp.com";
 
 export default {
   name: "App",

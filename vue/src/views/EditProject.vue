@@ -94,7 +94,7 @@ import "bulma-calendar/dist/css/bulma-calendar.min.css";
 import HeaderNav from "@/components/HeaderNav.vue";
 import axios from "axios";
 //const baseURL = "http://localhost:3000";
-const baseURL = "http://projects-api-20.herokuapp.com";
+const baseURL = "https://projects-api-20.herokuapp.com";
 
 export default {
   components: {
