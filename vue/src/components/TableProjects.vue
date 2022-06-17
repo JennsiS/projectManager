@@ -66,7 +66,9 @@
 
 <script>
 import axios from "axios";
-const baseURL = "http://localhost:3000";
+//const baseURL = "http://localhost:3000";
+const baseURL = "https://projects-api-20.herokuapp.com";
+
 export default {
   setup() {
     //let projects = [];
@@ -117,7 +119,7 @@ export default {
     });
     //console.log(this.relationPM);
 
-    console.log(this.projectsIds)
+    console.log(this.projectsIds);
     // this.projectsIds.forEach((projectId)=>{
     //   console.log(projectId)
     //   // axios.get(`http://localhost:3000/get_project_manager/${projectId}.json`)
