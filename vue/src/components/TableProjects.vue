@@ -7,8 +7,8 @@
           <th></th>
           <th></th>
           <th>{{ "Name" }}</th>
-          <th>{{ "Project manager" }}</th>
-          <th>{{ "Team" }}</th>
+          <!-- <th>{{ "Project manager" }}</th> -->
+          <!-- <th>{{ "Team" }}</th> -->
           <th>{{ "Start Date" }}</th>
           <th>{{ "End Date" }}</th>
           <th>{{ "State" }}</th>
@@ -43,8 +43,8 @@
           </th>
           <th>{{ column.title }}</th>
           <!-- <th></th> -->
-          <th>{{ getProjectManager(2) }}</th>
-          <th>{{ column.team }}</th>
+          <!-- <th>{{ getProjectManager(19) }}</th> -->
+          <!-- <th>{{ column.team }}</th> -->
           <th>{{ column.start_date }}</th>
           <th>{{ column.finish_date }}</th>
           <th>{{ column.state }}</th>
@@ -76,7 +76,7 @@ export default {
     axios.get(`${baseURL}/projects.json`).then((response) => {
       this.projects = response.data;
       response.data.forEach((item) => {
-        this.projectsIds.push(item.id);
+        this.projectsIds.push(item);
       });
       //console.log(this.projectsIds);
     });
@@ -84,10 +84,40 @@ export default {
     // GET relations between projects and users from database
     axios.get(`${baseURL}/users_projects.json`).then((response) => {
       this.team = response.data;
-      console.log(this.team);
+      //console.log(this.team);
     });
 
-    // console.log(this.projectsIds)
+    //GET users for adding members to the project
+    axios.get(`${baseURL}/users.json`).then((response) => {
+      response.data.forEach((item) => {
+        this.users.push(item.email);
+      });
+      this.allUsersInfo = response.data;
+      //console.log(this.allUsersInfo);
+    });
+
+    this.projectsIds.forEach((projectId) => {
+      axios
+        .get(`${baseURL}/get_project_manager/${projectId.id}.json`)
+        .then((response) => {
+          console.log(response.data);
+          // response.data.forEach((userId)=>{
+          //   this.allUsersInfo.forEach((user)=>{
+          //     if (user.id === userId){
+          //       console.log(user.email)
+          //       this.relationPM.push({user_id: userId, email: user.email, project: projectId})
+          //     }
+          //   })
+
+          // })
+          //this.team = response.data;
+          //console.log(response.data);
+          //return response.data;
+        });
+    });
+    //console.log(this.relationPM);
+
+    console.log(this.projectsIds)
     // this.projectsIds.forEach((projectId)=>{
     //   console.log(projectId)
     //   // axios.get(`http://localhost:3000/get_project_manager/${projectId}.json`)
@@ -106,6 +136,8 @@ export default {
       team: [],
       projectsIds: [],
       relationData: [],
+      allUsersInfo: [],
+      relationPM: [],
     };
   },
   methods: {
@@ -113,10 +145,23 @@ export default {
       axios
         .get(`${baseURL}/get_project_manager/${projectId}.json`)
         .then((response) => {
+          response.data.forEach((userId) => {
+            this.allUsersInfo.forEach((user) => {
+              if (user.id === userId) {
+                console.log(user.email);
+                this.relationPM.push({
+                  user_id: userId,
+                  email: user.email,
+                  project: projectId,
+                });
+              }
+            });
+          });
           //this.team = response.data;
-          console.log(response.data);
-          return response.data;
+          //console.log(response.data);
+          //return response.data;
         });
+      //console.log(this.relationPM)
     },
     deleteProject(projectId, projectTitle) {
       axios
@@ -141,7 +186,8 @@ export default {
         //console.log(response.data)
         //this.team.push(response.data);
       });
-      console.log(this.relationData);
+
+      //console.log(this.relationData);
       //console.log(this.team);
       //return this.team;
     },

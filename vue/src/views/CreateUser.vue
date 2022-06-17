@@ -12,14 +12,24 @@
       <div class="field">
         <label class="label">Email</label>
         <div class="control">
-          <input class="input" type="text" placeholder="Lomax email" />
+          <input
+            class="input"
+            type="text"
+            placeholder="Lomax email"
+            v-model="newEmail"
+          />
         </div>
       </div>
 
       <div class="field">
         <label class="label">Password</label>
         <div class="control">
-          <input class="input" type="text" placeholder="Password" />
+          <input
+            class="input"
+            type="password"
+            placeholder="Password"
+            v-model="password"
+          />
         </div>
       </div>
 
@@ -42,7 +52,9 @@
 
       <div class="field is-grouped">
         <div class="control">
-          <button class="button is-link">Create</button>
+          <button class="button is-link" @click.prevent="createNewUser">
+            Create
+          </button>
         </div>
         <div class="control">
           <button class="button is-link is-light">
@@ -66,18 +78,66 @@ export default {
   data() {
     return {
       roles: [],
+      newEmail: "",
+      password: "",
+      newUserId: "",
+      allRolesInfo: [],
+      role: "",
+      roleId: "",
     };
   },
   methods: {
-    //TODO: Make a POST to database to users table
-    //TODO: Make a POST to users_roles table
+    createNewUser() {
+      let newUser = {
+        email: this.newEmail,
+        password: this.password,
+      };
+      console.log(newUser);
+      axios
+        .post(`${baseURL}/users.json`, { user: newUser })
+        .then((res) => {
+          this.success = true;
+          this.newUserId = res.data.id;
+
+          this.allRolesInfo.forEach((role) => {
+            if (role.name === this.role) {
+              this.roleId = role.id;
+            }
+          });
+
+          let newRelationRole = {
+            user_id: this.newUserId,
+            role_id: this.roleId,
+          };
+
+          axios
+            .post(`${baseURL}/users_roles.json`, {
+              users_roles: newRelationRole,
+            })
+            .then((res) => {
+              this.success = true;
+              console.log("Relation added succesfully");
+            })
+            .catch((error) => {
+              this.error = error.data;
+              console.log("Relation to add members, check fields");
+            });
+
+          this.$swal("User created successfully");
+        })
+        .catch((error) => {
+          this.error = error.data;
+          this.$swal("Failed to create user, check user fields");
+        });
+    },
   },
   mounted() {
     axios.get(`${baseURL}/roles.json`).then((response) => {
       response.data.forEach((item) => {
         this.roles.push(item.name);
       });
-      console.log(this.roles);
+      this.allRolesInfo = response.data;
+      console.log(this.allRolesInfo);
     });
   },
 };

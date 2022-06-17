@@ -2,7 +2,7 @@
   <div>
     <HeaderNav />
     <ProjectOptions :projectId="this.projectId" />
-    <div id="app">
+    <div id="calendar">
       <div class="calendar-controls">
         <div v-if="message" class="notification is-success">{{ message }}</div>
 
@@ -296,13 +296,13 @@ export default {
 </script>
 
 <style>
-html,
-body {
+/* html, */
+/* body {
   height: 100%;
   margin: 0;
   background-color: #f7fcff;
-}
-#app {
+} */
+#calendar {
   display: flex;
   flex-direction: row;
   font-family: Calibri, sans-serif;

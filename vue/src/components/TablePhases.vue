@@ -43,6 +43,7 @@ const baseURL = "http://localhost:3000";
 export default {
   props: { projectId: String },
   mounted() {
+    //location.reload();
     //GET actual projects from database
     axios
       .get(`${baseURL}/all_project_phases/${this.projectId}.json`)

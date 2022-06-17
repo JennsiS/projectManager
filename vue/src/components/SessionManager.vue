@@ -51,7 +51,7 @@
               />
             </div>
           </div>
-          <input type="submit" value="Login" class="login-form-submit" />
+          <input type="submit" class="login-form-submit" v-on:click="login" />
         </form>
       </div>
 
@@ -78,50 +78,49 @@
 
 <script>
 import "@/store/index.js";
-import { mapActions, mapGetters } from "vuex";
+import axios from "axios";
+const baseURL = "http://localhost:3000";
+
 export default {
   name: "SessionManager",
-  computed: {
-    ...mapGetters(["getAuthToken", "getUserEmail", "getUserID", "isLoggedIn"]),
-  },
+  // computed: {
+  //   ...mapGetters(["getAuthToken", "getUserEmail", "getUserID", "isLoggedIn"]),
+  // },
   data() {
     return {
-      signUpEmail: "",
-      signUpPassword: "",
       loginEmail: "",
       loginPassword: "",
     };
   },
   methods: {
-    ...mapActions(["registerUser", "loginUser", "logoutUser"]),
-    onSignUp(event) {
+    // ...mapActions(["registerUser", "loginUser", "logoutUser"]),
+    // onSignUp(event) {
+    //   event.preventDefault();
+    //   let data = {
+    //     user: {
+    //       email: this.signUpEmail,
+    //       password: this.signUpPassword,
+    //     },
+    //   };
+    //   this.registerUser(data);
+    //   this.resetData();
+    // },
+    login(event) {
       event.preventDefault();
-      let data = {
-        user: {
-          email: this.signUpEmail,
-          password: this.signUpPassword,
-        },
-      };
-      this.registerUser(data);
-      this.resetData();
-    },
-    onLogin(event) {
-      event.preventDefault();
-      let data = {
+      let userSession = {
         user: {
           email: this.loginEmail,
           password: this.loginPassword,
         },
       };
-      this.loginUser(data);
-      this.resetData();
-      console.log("Logged in");
-    },
-    resetData() {
-      this.signUpEmail = "";
-      this.signUpPassword = "";
-      this.loginEmail = "";
-      this.loginPassword = "";
+
+      axios
+        .post(`${baseURL}/users/sign_in`, userSession)
+        .then((response) => {
+          console.log(response.data);
+          console.log("Logged in");
+          this.$router.go("/dashboard");
+        });
     },
   },
 };
