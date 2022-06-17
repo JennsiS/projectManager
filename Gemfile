@@ -11,7 +11,7 @@ gem "sprockets-rails"
 
 # Use sqlite3 as the database for Active Record
 #gem "sqlite3", "~> 1.4"
-group :devlopment, :test do
+group :development, :test do
   gem 'sqlite3'
 end
 
