@@ -79,13 +79,10 @@
 <script>
 import "@/store/index.js";
 import axios from "axios";
-const baseURL = "https://localhost:3000";
+import { baseURL } from "../plugins/axios";
 
 export default {
   name: "SessionManager",
-  // computed: {
-  //   ...mapGetters(["getAuthToken", "getUserEmail", "getUserID", "isLoggedIn"]),
-  // },
   data() {
     return {
       loginEmail: "",
@@ -93,18 +90,6 @@ export default {
     };
   },
   methods: {
-    // ...mapActions(["registerUser", "loginUser", "logoutUser"]),
-    // onSignUp(event) {
-    //   event.preventDefault();
-    //   let data = {
-    //     user: {
-    //       email: this.signUpEmail,
-    //       password: this.signUpPassword,
-    //     },
-    //   };
-    //   this.registerUser(data);
-    //   this.resetData();
-    // },
     login(event) {
       event.preventDefault();
       let userSession = {
@@ -114,13 +99,11 @@ export default {
         },
       };
 
-      axios
-        .post(`${baseURL}/users/sign_in`, userSession)
-        .then((response) => {
-          console.log(response.data);
-          console.log("Logged in");
-          this.$router.go("/dashboard");
-        });
+      axios.post(`${baseURL}/users/sign_in`, userSession).then((response) => {
+        console.log(response.data);
+        console.log("Logged in");
+        this.$router.go("/dashboard");
+      });
     },
   },
 };

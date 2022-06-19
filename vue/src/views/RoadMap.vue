@@ -1,8 +1,43 @@
+<script>
+import ProjectOptions from "../components/ProjectOptions.vue";
+import HeaderNav from "@/components/HeaderNav.vue";
+import axios from "axios";
+import { baseURL } from "../plugins/axios";
+
+export default {
+  mounted() {
+    //Using get phases by project id route
+    axios
+      .get(`${baseURL}/all_project_phases/${this.projectId}.json`)
+      .then((response) => {
+        console.log(response.data);
+        response.data.forEach((item) => {
+          this.phases.push(item);
+        });
+      });
+    //console.log(this.phases);
+  },
+
+  methods: {},
+  components: {
+    ProjectOptions,
+    HeaderNav,
+  },
+  data() {
+    return {
+      projectId: this.$route.params.id,
+      phases: [],
+      phases_ids: [],
+    };
+  },
+};
+</script>
+
 <template>
   <div>
     <HeaderNav />
     <ProjectOptions :projectId="this.projectId" />
-
+    <h3>Roadmap</h3>
     <div class="timeline">
       <header class="timeline-header">
         <span class="tag is-medium is-primary">Start</span>
@@ -43,42 +78,6 @@
     </div>
   </div>
 </template>
-
-<script>
-import ProjectOptions from "../components/ProjectOptions.vue";
-import HeaderNav from "@/components/HeaderNav.vue";
-import axios from "axios";
-//const baseURL = "http://localhost:3000";
-const baseURL = "https://projects-api-20.herokuapp.com";
-
-export default {
-  mounted() {
-    //Using get phases by project id route
-    axios
-      .get(`${baseURL}/all_project_phases/${this.projectId}.json`)
-      .then((response) => {
-        console.log(response.data);
-        response.data.forEach((item) => {
-          this.phases.push(item);
-        });
-      });
-    //console.log(this.phases);
-  },
-
-  methods: {},
-  components: {
-    ProjectOptions,
-    HeaderNav,
-  },
-  data() {
-    return {
-      projectId: this.$route.params.id,
-      phases: [],
-      phases_ids: [],
-    };
-  },
-};
-</script>
 
 <style lang="sass">
 // Colors

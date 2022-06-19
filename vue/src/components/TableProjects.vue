@@ -1,78 +1,8 @@
-<template>
-  <div>
-    <table class="table table-striped is-hoverable">
-      <thead>
-        <tr>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th>{{ "Name" }}</th>
-          <!-- <th>{{ "Project manager" }}</th> -->
-          <!-- <th>{{ "Team" }}</th> -->
-          <th>{{ "Start Date" }}</th>
-          <th>{{ "End Date" }}</th>
-          <th>{{ "State" }}</th>
-          <!-- <th>{{ "Progress" }}</th> -->
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(column, index) in projects" :key="index">
-          <th>
-            <button class="button is-primary">
-              <router-link :to="{ name: 'RoadMap', params: { id: column.id } }">
-                View
-              </router-link>
-            </button>
-          </th>
-          <th>
-            <button
-              class="button is-danger delete"
-              v-on:click="deleteProject(column.id, column.title)"
-            >
-              Delete
-            </button>
-          </th>
-          <th>
-            <button class="button is-warning">
-              <router-link
-                :to="{ name: 'EditProject', params: { id: column.id } }"
-              >
-                <font-awesome-icon icon="fa-solid fa-pen-to-square" />
-              </router-link>
-            </button>
-          </th>
-          <th>{{ column.title }}</th>
-          <!-- <th></th> -->
-          <!-- <th>{{ getProjectManager(19) }}</th> -->
-          <!-- <th>{{ column.team }}</th> -->
-          <th>{{ column.start_date }}</th>
-          <th>{{ column.finish_date }}</th>
-          <th>{{ column.state }}</th>
-          <!-- <th>
-            <progress
-              class="progress is-primary"
-              value= "100"
-              max="100"
-            >
-              {{ column.progress }}
-              15%
-            </progress>
-          </th> -->
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</template>
-
 <script>
 import axios from "axios";
-//const baseURL = "http://localhost:3000";
-const baseURL = "https://projects-api-20.herokuapp.com";
+import { baseURL } from "../plugins/axios";
 
 export default {
-  setup() {
-    //let projects = [];
-  },
   mounted() {
     //GET actual projects from database
     axios.get(`${baseURL}/projects.json`).then((response) => {
@@ -196,6 +126,72 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div>
+    <table class="table table-striped is-hoverable">
+      <thead>
+        <tr>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th>{{ "Name" }}</th>
+          <!-- <th>{{ "Project manager" }}</th> -->
+          <!-- <th>{{ "Team" }}</th> -->
+          <th>{{ "Start Date" }}</th>
+          <th>{{ "End Date" }}</th>
+          <th>{{ "State" }}</th>
+          <!-- <th>{{ "Progress" }}</th> -->
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(column, index) in projects" :key="index">
+          <th>
+            <button class="button is-primary">
+              <router-link :to="{ name: 'RoadMap', params: { id: column.id } }">
+                View
+              </router-link>
+            </button>
+          </th>
+          <th>
+            <button
+              class="button is-danger delete"
+              v-on:click="deleteProject(column.id, column.title)"
+            >
+              Delete
+            </button>
+          </th>
+          <th>
+            <button class="button is-warning">
+              <router-link
+                :to="{ name: 'EditProject', params: { id: column.id } }"
+              >
+                <font-awesome-icon icon="fa-solid fa-pen-to-square" />
+              </router-link>
+            </button>
+          </th>
+          <th>{{ column.title }}</th>
+          <!-- <th></th> -->
+          <!-- <th>{{ getProjectManager(19) }}</th> -->
+          <!-- <th>{{ column.team }}</th> -->
+          <th>{{ column.start_date }}</th>
+          <th>{{ column.finish_date }}</th>
+          <th>{{ column.state }}</th>
+          <!-- <th>
+            <progress
+              class="progress is-primary"
+              value= "100"
+              max="100"
+            >
+              {{ column.progress }}
+              15%
+            </progress>
+          </th> -->
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</template>
 
 <style scoped>
 .table {

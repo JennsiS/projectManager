@@ -1,16 +1,3 @@
-<template>
-  <div>
-    <HeaderNav />
-    <button class="button is-success">
-      <router-link :to="{ name: 'CreateProject' }">
-        Add project
-        <!-- <font-awesome-icon icon="fa-solid fa-plus" /> -->
-      </router-link>
-    </button>
-    <TableProjects />
-  </div>
-</template>
-
 <script>
 import TableProjects from "@/components/TableProjects.vue";
 import HeaderNav from "@/components/HeaderNav.vue";
@@ -22,6 +9,16 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div>
+    <HeaderNav />
+    <button class="button is-success">
+      <router-link :to="{ name: 'CreateProject' }"> Add project </router-link>
+    </button>
+    <TableProjects />
+  </div>
+</template>
 
 <style scoped>
 .button a {

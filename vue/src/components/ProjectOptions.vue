@@ -1,3 +1,9 @@
+<script>
+export default {
+  props: { projectId: String },
+};
+</script>
+
 <template>
   <div class="tabs">
     <ul>
@@ -21,12 +27,6 @@
     </ul>
   </div>
 </template>
-
-<script>
-export default {
-  props: { projectId: String },
-};
-</script>
 
 <style scoped>
 li a {

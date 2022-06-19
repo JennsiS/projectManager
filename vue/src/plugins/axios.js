@@ -1,28 +1,6 @@
-import axios from "axios";
+//import axios from 'axios';
 
-const cancelToken = axios.CancelToken;
+const baseURL = "http://localhost:3000";
+//const baseURL = "https://projects-api-20.herokuapp.com";
 
-let token = document.querySelector('meta[name="csrf-token"]').content;
-
-export default {
-  install(vue, options) {
-    vue.prototype.$axios = axios.create({
-      headers: {
-        "X-CSRF-Token": token,
-        "Cache-Control": "no-cache"
-      }
-    });
-
-    vue.prototype.$axiosCancel = cancelToken;
-
-    vue.prototype.$axios.interceptors.response.use(
-      response => {
-        return response;
-      },
-      error => {
-        console.log(error);
-        // location.href = "/not-found";
-      }
-    );
-  }
-};
+export { baseURL };

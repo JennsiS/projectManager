@@ -1,99 +1,15 @@
-<template>
-  <div>
-    <ProjectOptions :projectId="this.projectId" />
-    <form class="box">
-      <div class="field">
-        <label class="label">Name</label>
-        <div class="control">
-          <input
-            class="input"
-            type="text"
-            placeholder="Phase name"
-            v-model="phaseName"
-          />
-        </div>
-      </div>
-
-      <div class="field">
-        <label class="label">Description</label>
-        <div class="control">
-          <input
-            class="input"
-            type="text"
-            placeholder="Phase description"
-            v-model="phaseDescription"
-          />
-        </div>
-      </div>
-
-      <div class="field">
-        <label class="label">Start date</label>
-        <div class="control">
-          <input class="input is-info" type="date" v-model="startDate" />
-        </div>
-      </div>
-
-      <div class="field">
-        <label class="label">End date</label>
-        <div class="control">
-          <input class="input is-info" type="date" v-model="endDate" />
-        </div>
-      </div>
-
-      <div class="field">
-        <label class="label">Project Manager</label>
-        <div class="control">
-          <div>
-            <Multiselect v-model="valuePM" :options="users" />
-          </div>
-        </div>
-      </div>
-
-      <div class="field">
-        <label class="label">Team</label>
-        <div class="control">
-          <div>
-            <Multiselect
-              v-model="valueTeam"
-              :options="users"
-              mode="tags"
-              :close-on-select="false"
-              :searchable="true"
-              :create-option="true"
-            />
-          </div>
-        </div>
-      </div>
-
-      <div class="field is-grouped">
-        <div class="control">
-          <button class="button is-link" @click.prevent="createNewPhase">
-            Create
-          </button>
-        </div>
-        <div class="control">
-          <button class="button is-link is-light">
-            <router-link :to="{ path: `/Phases/${this.projectId}` }">
-              Cancel
-            </router-link>
-          </button>
-        </div>
-      </div>
-    </form>
-  </div>
-</template>
-
 <script>
 import ProjectOptions from "../components/ProjectOptions.vue";
+import HeaderNav from "../components/HeaderNav.vue";
 import Multiselect from "@vueform/multiselect";
 import axios from "axios";
-//const baseURL = "http://localhost:3000";
-const baseURL = "https://projects-api-20.herokuapp.com";
+import { baseURL } from "../plugins/axios";
 
 export default {
   components: {
     ProjectOptions,
     Multiselect,
+    HeaderNav,
   },
   data() {
     return {
@@ -215,4 +131,108 @@ export default {
 };
 </script>
 
+<template>
+  <div>
+    <HeaderNav />
+    <ProjectOptions :projectId="this.projectId" />
+    <h3>Create a new phase</h3>
+    <div class="form-container">
+      <form class="box">
+        <div class="field">
+          <label class="label">Name</label>
+          <div class="control">
+            <input
+              class="input"
+              type="text"
+              placeholder="Phase name"
+              v-model="phaseName"
+            />
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label">Description</label>
+          <div class="control">
+            <input
+              class="input"
+              type="text"
+              placeholder="Phase description"
+              v-model="phaseDescription"
+            />
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label">Start date</label>
+          <div class="control">
+            <input class="input is-info" type="date" v-model="startDate" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label">End date</label>
+          <div class="control">
+            <input class="input is-info" type="date" v-model="endDate" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label">Project Manager</label>
+          <div class="control">
+            <div>
+              <Multiselect v-model="valuePM" :options="users" />
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label">Team</label>
+          <div class="control">
+            <div>
+              <Multiselect
+                v-model="valueTeam"
+                :options="users"
+                mode="tags"
+                :close-on-select="false"
+                :searchable="true"
+                :create-option="true"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="field is-grouped">
+          <div class="control">
+            <button class="button is-link" @click.prevent="createNewPhase">
+              Create
+            </button>
+          </div>
+          <div class="control">
+            <button class="button is-link is-light">
+              <router-link :to="{ path: `/Phases/${this.projectId}` }">
+                Cancel
+              </router-link>
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</template>
+
 <style src="@vueform/multiselect/themes/default.css"></style>
+
+<style scoped>
+.form-container {
+  width: 50%;
+  align-items: center;
+  align-content: center;
+  position: absolute;
+  left: 25%;
+  padding: 5%;
+}
+
+h3 div{
+  align-items: center;
+}
+</style>

@@ -1,139 +1,3 @@
-<template>
-  <div>
-    <HeaderNav />
-    <ProjectOptions :projectId="this.projectId" />
-    <div id="calendar">
-      <div class="calendar-controls">
-        <div v-if="message" class="notification is-success">{{ message }}</div>
-
-        <div class="box">
-          <h4 class="title is-5">Play with the options!</h4>
-
-          <div class="field">
-            <label class="label">Period UOM</label>
-            <div class="control">
-              <div class="select">
-                <select v-model="displayPeriodUom">
-                  <option>month</option>
-                  <option>week</option>
-                  <option>year</option>
-                </select>
-              </div>
-            </div>
-          </div>
-
-          <!-- <div class="field">
-            <label class="label">Period Count</label>
-            <div class="control">
-              <div class="select">
-                <select v-model="displayPeriodCount">
-                  <option :value="1">1</option>
-                  <option :value="2">2</option>
-                  <option :value="3">3</option>
-                </select>
-              </div>
-            </div>
-          </div> -->
-
-          <div class="field">
-            <label class="label">Starting day of the week</label>
-            <div class="control">
-              <div class="select">
-                <select v-model="startingDayOfWeek">
-                  <option
-                    v-for="(d, index) in dayNames"
-                    :key="index"
-                    :value="index"
-                  >
-                    {{ d }}
-                  </option>
-                </select>
-              </div>
-            </div>
-          </div>
-
-          <div class="field">
-            <label class="checkbox">
-              <input v-model="displayWeekNumbers" type="checkbox" />
-              Show week number
-            </label>
-          </div>
-
-          <div class="field">
-            <label class="checkbox">
-              <input v-model="showTimes" type="checkbox" />
-              Show times
-            </label>
-          </div>
-        </div>
-
-        <div class="box">
-          <div class="field">
-            <label class="label">Title</label>
-            <div class="control">
-              <input v-model="newItemTitle" class="input" type="text" />
-            </div>
-          </div>
-
-          <div class="field">
-            <label class="label">Start date</label>
-            <div class="control">
-              <input v-model="newItemStartDate" class="input" type="date" />
-            </div>
-          </div>
-
-          <div class="field">
-            <label class="label">End date</label>
-            <div class="control">
-              <input v-model="newItemEndDate" class="input" type="date" />
-            </div>
-          </div>
-
-          <button class="button is-info" @click="clickTestAddItem">
-            Add Item
-          </button>
-        </div>
-      </div>
-      <div class="calendar-parent">
-        <calendar-view
-          :items="items"
-          :show-date="showDate"
-          :time-format-options="{ hour: 'numeric', minute: '2-digit' }"
-          :enable-drag-drop="true"
-          :disable-past="disablePast"
-          :disable-future="disableFuture"
-          :show-times="showTimes"
-          :date-classes="myDateClasses"
-          :display-period-uom="displayPeriodUom"
-          :display-period-count="displayPeriodCount"
-          :starting-day-of-week="startingDayOfWeek"
-          :class="themeClasses"
-          :period-changed-callback="periodChanged"
-          :current-period-label="useTodayIcons ? 'icons' : ''"
-          :displayWeekNumbers="displayWeekNumbers"
-          :enable-date-selection="true"
-          :selection-start="selectionStart"
-          :selection-end="selectionEnd"
-          @date-selection-start="setSelection"
-          @date-selection="setSelection"
-          @date-selection-finish="finishSelection"
-          @drop-on-date="onDrop"
-          @click-date="onClickDay"
-          @click-item="onClickItem"
-        >
-          <template #header="{ headerProps }">
-            <calendar-view-header
-              slot="header"
-              :header-props="headerProps"
-              @input="setShowDate"
-            />
-          </template>
-        </calendar-view>
-      </div>
-    </div>
-  </div>
-</template>
-
 <script>
 //Using https://github.com/richardtallent/vue-simple-calendar-sample/blob/main/src/App.vue as a template
 
@@ -143,12 +7,10 @@ import {
   CalendarMath,
 } from "vue-simple-calendar";
 import "../../node_modules/vue-simple-calendar/dist/style.css";
-//import SideBar from "@/components/SideBar.vue";
 import ProjectOptions from "../components/ProjectOptions.vue";
 import HeaderNav from "../components/HeaderNav.vue";
 import axios from "axios";
-//const baseURL = "http://localhost:3000";
-const baseURL = "https://projects-api-20.herokuapp.com";
+import { baseURL } from "../plugins/axios";
 
 export default {
   name: "App",
@@ -157,11 +19,9 @@ export default {
     CalendarViewHeader,
     ProjectOptions,
     HeaderNav,
-    //SideBar,
   },
   data() {
     return {
-      /* Show the current month, and give it some fake items to show */
       importantDates: [],
       showDate: this.thisMonth(1),
       message: "",
@@ -183,13 +43,6 @@ export default {
       useTodayIcons: false,
       items: [],
       projectId: this.$route.params.id,
-      // items: [
-      //    {
-      //     id: "e0",
-      //     startDate: "2022-06-02",
-      //     title: "prueba",
-      //    },
-      //    ],
     };
   },
   computed: {
@@ -296,13 +149,131 @@ export default {
 };
 </script>
 
+<template>
+  <div>
+    <HeaderNav />
+    <ProjectOptions :projectId="this.projectId" />
+    <h3>Important Dates</h3>
+    <div id="calendar">
+      <div class="calendar-controls">
+        <div v-if="message" class="notification is-success">{{ message }}</div>
+
+        <div class="box">
+          <h4 class="title is-5">Play with the options!</h4>
+
+          <div class="field">
+            <label class="label">Period UOM</label>
+            <div class="control">
+              <div class="select">
+                <select v-model="displayPeriodUom">
+                  <option>month</option>
+                  <option>week</option>
+                  <option>year</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label">Starting day of the week</label>
+            <div class="control">
+              <div class="select">
+                <select v-model="startingDayOfWeek">
+                  <option
+                    v-for="(d, index) in dayNames"
+                    :key="index"
+                    :value="index"
+                  >
+                    {{ d }}
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="checkbox">
+              <input v-model="displayWeekNumbers" type="checkbox" />
+              Show week number
+            </label>
+          </div>
+
+          <div class="field">
+            <label class="checkbox">
+              <input v-model="showTimes" type="checkbox" />
+              Show times
+            </label>
+          </div>
+        </div>
+
+        <div class="box">
+          <div class="field">
+            <label class="label">Title</label>
+            <div class="control">
+              <input v-model="newItemTitle" class="input" type="text" />
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label">Start date</label>
+            <div class="control">
+              <input v-model="newItemStartDate" class="input" type="date" />
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label">End date</label>
+            <div class="control">
+              <input v-model="newItemEndDate" class="input" type="date" />
+            </div>
+          </div>
+
+          <button class="button is-info" @click="clickTestAddItem">
+            Add Item
+          </button>
+        </div>
+      </div>
+      <div class="calendar-parent">
+        <calendar-view
+          :items="items"
+          :show-date="showDate"
+          :time-format-options="{ hour: 'numeric', minute: '2-digit' }"
+          :enable-drag-drop="true"
+          :disable-past="disablePast"
+          :disable-future="disableFuture"
+          :show-times="showTimes"
+          :date-classes="myDateClasses"
+          :display-period-uom="displayPeriodUom"
+          :display-period-count="displayPeriodCount"
+          :starting-day-of-week="startingDayOfWeek"
+          :class="themeClasses"
+          :period-changed-callback="periodChanged"
+          :current-period-label="useTodayIcons ? 'icons' : ''"
+          :displayWeekNumbers="displayWeekNumbers"
+          :enable-date-selection="true"
+          :selection-start="selectionStart"
+          :selection-end="selectionEnd"
+          @date-selection-start="setSelection"
+          @date-selection="setSelection"
+          @date-selection-finish="finishSelection"
+          @drop-on-date="onDrop"
+          @click-date="onClickDay"
+          @click-item="onClickItem"
+        >
+          <template #header="{ headerProps }">
+            <calendar-view-header
+              slot="header"
+              :header-props="headerProps"
+              @input="setShowDate"
+            />
+          </template>
+        </calendar-view>
+      </div>
+    </div>
+  </div>
+</template>
+
 <style>
-/* html, */
-/* body {
-  height: 100%;
-  margin: 0;
-  background-color: #f7fcff;
-} */
 #calendar {
   display: flex;
   flex-direction: row;

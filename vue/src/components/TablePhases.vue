@@ -1,46 +1,6 @@
-<template>
-  <div>
-    <table class="table table-striped is-hoverable">
-      <thead>
-        <tr>
-          <th></th>
-          
-          <th>{{ "Name" }}</th>
-          <!-- <th>{{ "Project manager" }}</th>
-          <th>{{ "Team" }}</th> -->
-          <th>{{ "Start Date" }}</th>
-          <th>{{ "End Date" }}</th>
-          <th>{{ "Description" }}</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="column in phases" :key="column">
-          <th>
-            <button
-              class="button is-danger delete"
-              v-on:click="deletePhase(column.id, column.name)"
-            >
-              Delete
-            </button>
-          </th>
-          <th>{{ column.name }}</th>
-          <!-- <th></th> -->
-          <!-- <th>{{ getTeamMembers(projectId, column.id) }}</th> -->
-          <!-- <th>project manager</th>
-          <th>team</th> -->
-          <th>{{ column.start_date }}</th>
-          <th>{{ column.finish_date }}</th>
-          <th>{{ column.description }}</th>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</template>
-
 <script>
 import axios from "axios";
-//const baseURL = "http://localhost:3000";
-const baseURL = "https://projects-api-20.herokuapp.com";
+import { baseURL } from "../plugins/axios";
 
 export default {
   props: { projectId: String },
@@ -81,6 +41,44 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div>
+    <table class="table table-striped is-hoverable">
+      <thead>
+        <tr>
+          <th></th>
+          <th>{{ "Name" }}</th>
+          <!-- <th>{{ "Project manager" }}</th>
+          <th>{{ "Team" }}</th> -->
+          <th>{{ "Start Date" }}</th>
+          <th>{{ "End Date" }}</th>
+          <th>{{ "Description" }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="column in phases" :key="column">
+          <th>
+            <button
+              class="button is-danger delete"
+              v-on:click="deletePhase(column.id, column.name)"
+            >
+              Delete
+            </button>
+          </th>
+          <th>{{ column.name }}</th>
+          <!-- <th></th> -->
+          <!-- <th>{{ getTeamMembers(projectId, column.id) }}</th> -->
+          <!-- <th>project manager</th>
+          <th>team</th> -->
+          <th>{{ column.start_date }}</th>
+          <th>{{ column.finish_date }}</th>
+          <th>{{ column.description }}</th>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</template>
 
 <style scoped>
 .table {
