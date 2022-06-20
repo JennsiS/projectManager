@@ -43,6 +43,7 @@ export default {
       useTodayIcons: false,
       items: [],
       projectId: this.$route.params.id,
+      projectName: "",
     };
   },
   computed: {
@@ -79,6 +80,10 @@ export default {
         });
         console.log(this.items);
       });
+
+    axios.get(`${baseURL}/projects/${this.projectId}.json`).then((response) => {
+      this.projectName = response.data.title;
+    });
   },
   methods: {
     thisMonth(d, h, m) {
@@ -152,8 +157,9 @@ export default {
 <template>
   <div>
     <HeaderNav />
+    <h2>{{ this.projectName }}</h2>
     <ProjectOptions :projectId="this.projectId" />
-    <h3>Important Dates</h3>
+    <h4>Important Dates</h4>
     <div id="calendar">
       <div class="calendar-controls">
         <div v-if="message" class="notification is-success">{{ message }}</div>
@@ -274,6 +280,9 @@ export default {
 </template>
 
 <style>
+h2 {
+  color: gray;
+}
 #calendar {
   display: flex;
   flex-direction: row;

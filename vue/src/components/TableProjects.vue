@@ -8,9 +8,13 @@ export default {
     axios.get(`${baseURL}/projects.json`).then((response) => {
       this.projects = response.data;
       response.data.forEach((item) => {
-        this.projectsIds.push(item);
+        this.projectsIds.push(item.id);
       });
-      //console.log(this.projectsIds);
+      this.projectsIds.forEach((projectId) => {
+        //console.log(projectId)
+        this.getTeamMembers(projectId);
+        //console.log(this.relationData);
+      });
     });
 
     // GET relations between projects and users from database
@@ -29,37 +33,13 @@ export default {
     });
 
     this.projectsIds.forEach((projectId) => {
-      axios
-        .get(`${baseURL}/get_project_manager/${projectId.id}.json`)
-        .then((response) => {
-          console.log(response.data);
-          // response.data.forEach((userId)=>{
-          //   this.allUsersInfo.forEach((user)=>{
-          //     if (user.id === userId){
-          //       console.log(user.email)
-          //       this.relationPM.push({user_id: userId, email: user.email, project: projectId})
-          //     }
-          //   })
-
-          // })
-          //this.team = response.data;
-          //console.log(response.data);
-          //return response.data;
-        });
+      //console.log(projectId)
+      this.getTeamMembers(projectId);
+      //console.log(this.relationData);
     });
     //console.log(this.relationPM);
 
-    console.log(this.projectsIds);
-    // this.projectsIds.forEach((projectId)=>{
-    //   console.log(projectId)
-    //   // axios.get(`http://localhost:3000/get_project_manager/${projectId}.json`)
-    //   // .then((response) => {
-    //   //   //this.team = response.data;
-    //   //   this.relationData.push({project: projectId, user: response.data})
-
-    //   // })
-
-    // })
+    //console.log(this.projectsIds);
   },
   data() {
     return {
@@ -105,19 +85,31 @@ export default {
     },
 
     getTeamMembers(projectId) {
-      axios.get(`${baseURL}/get_team/${projectId}.json`).then((response) => {
-        response.data.forEach((user) => {
-          this.relationData.push({
-            user_id: user.user_id,
-            project_id: projectId,
-          });
-          //console.log(user.user_id)
-        });
+      axios
+        .get(`${baseURL}/team_members/${projectId}.json`)
+        .then((response) => {
+          response.data.forEach((user) => {
+            this.allUsersInfo.forEach((userInfo) => {
+              if (userInfo.id === user.user_id) {
+                this.relationData.push({
+                  user_id: user.user_id,
+                  project_id: projectId,
+                  email: userInfo.email,
+                });
+              }
+            });
+            //console.log(response.data);
 
-        //console.log(response.data[0].user_id);
-        //console.log(response.data)
-        //this.team.push(response.data);
-      });
+            //console.log(user.user_id)
+          });
+          //console.log(this.relationData);
+          //console.log(this.relationData.find(obj => obj.project_id == projectId))
+          console.log(
+            this.relationData.filter(
+              (projects) => projects.project_id === projectId
+            )
+          );
+        });
 
       //console.log(this.relationData);
       //console.log(this.team);
@@ -136,7 +128,7 @@ export default {
           <th></th>
           <th></th>
           <th>{{ "Name" }}</th>
-          <!-- <th>{{ "Project manager" }}</th> -->
+          <th>{{ "Team" }}</th>
           <!-- <th>{{ "Team" }}</th> -->
           <th>{{ "Start Date" }}</th>
           <th>{{ "End Date" }}</th>
@@ -171,8 +163,8 @@ export default {
             </button>
           </th>
           <th>{{ column.title }}</th>
-          <!-- <th></th> -->
-          <!-- <th>{{ getProjectManager(19) }}</th> -->
+          <th></th>
+          <!-- <th>{{ getTeamMembers(column.id) }}</th> -->
           <!-- <th>{{ column.team }}</th> -->
           <th>{{ column.start_date }}</th>
           <th>{{ column.finish_date }}</th>

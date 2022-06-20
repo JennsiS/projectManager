@@ -53,6 +53,11 @@ gem "devise"
 
 gem "rack-cors", "1.1.1"
 
+gem "rspec-rails"
+gem "ffi"
+#gem 'factory_bot_rails'
+gem 'shoulda-matchers'
+
 # Use Sass to process CSS
 # gem "sassc-rails"
 

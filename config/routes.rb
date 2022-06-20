@@ -23,4 +23,5 @@ Rails.application.routes.draw do
 
   get '/get_project_manager/:project_id', to: 'users_projects#get_PM'
 
+
 end

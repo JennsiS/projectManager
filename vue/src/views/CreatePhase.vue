@@ -25,6 +25,7 @@ export default {
       newPhaseId: "",
       userIdPM: "",
       usersTeamIds: [],
+      projectName: "",
     };
   },
   mounted() {
@@ -34,7 +35,11 @@ export default {
         this.users.push(item.email);
       });
       this.allUsersInfo = response.data;
-      //console.log(this.allUsersInfo);
+    });
+
+    //GET project name
+    axios.get(`${baseURL}/projects/${this.projectId}.json`).then((response) => {
+      this.projectName = response.data.title;
     });
   },
   methods: {
@@ -134,8 +139,9 @@ export default {
 <template>
   <div>
     <HeaderNav />
+    <h2>{{ this.projectName }}</h2>
     <ProjectOptions :projectId="this.projectId" />
-    <h3>Create a new phase</h3>
+    <h4>Create a new phase</h4>
     <div class="form-container">
       <form class="box">
         <div class="field">
@@ -234,5 +240,9 @@ export default {
 
 h3 div{
   align-items: center;
+}
+
+h2 {
+  color: gray;
 }
 </style>

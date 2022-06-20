@@ -81,9 +81,10 @@ class ProjectsController < ApplicationController
     return if params[:project_id].blank?
 
     p = Project.find(params[:project_id])
+    users_projects = p.users_projects.where(rol_project_user: "Member").select("user_id")
     
     respond_to do |format|
-      format.json { render json: p.users, stauts: :ok}
+      format.json { render json: users_projects, stauts: :ok}
     end
   end
 

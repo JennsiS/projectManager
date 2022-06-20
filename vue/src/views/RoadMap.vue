@@ -15,7 +15,11 @@ export default {
           this.phases.push(item);
         });
       });
-    //console.log(this.phases);
+
+    //GET project name
+    axios.get(`${baseURL}/projects/${this.projectId}.json`).then((response) => {
+      this.projectName = response.data.title;
+    });
   },
 
   methods: {},
@@ -28,6 +32,7 @@ export default {
       projectId: this.$route.params.id,
       phases: [],
       phases_ids: [],
+      projectName: "",
     };
   },
 };
@@ -36,8 +41,9 @@ export default {
 <template>
   <div>
     <HeaderNav />
+    <h2>{{ this.projectName }}</h2>
     <ProjectOptions :projectId="this.projectId" />
-    <h3>Roadmap</h3>
+    <h4>Roadmap</h4>
     <div class="timeline">
       <header class="timeline-header">
         <span class="tag is-medium is-primary">Start</span>
@@ -289,4 +295,9 @@ $timeline-icon-size: $size-5 !default
         .timeline-tag
           .image
             border-color: $color !important
+h2
+  color: gray
+
+h4
+  text-align: center
 </style>

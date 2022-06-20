@@ -3,18 +3,19 @@ class UsersController < ApplicationController
 before_action :set_user, only: %i[ show edit update destroy ]
     # GET /users or /users.json
     def show; end
-    def index
-        respond_to do |format|
-            format.html do 
-                @users = User.all
-            end
-            format.json do
-                render json: User.all
-            end
-       end
-      
-    end
+  def index
+    respond_to do |format|
+      format.html do 
+        @users = User.all
+      end
+      format.json do
+        render json: User.all
+      end
+    end 
+  end
 
+
+  
     def get_users
         return if params[:project_id].blank?
     
@@ -35,7 +36,7 @@ before_action :set_user, only: %i[ show edit update destroy ]
 
     def create
         @user = User.new(user_params)
-        @user.password = params[:password]
+        #@user.password = params[:password]
 
         respond_to do |format|
             if @user.save
@@ -48,10 +49,6 @@ before_action :set_user, only: %i[ show edit update destroy ]
         end
 
     end
-    
-    # def update
-    #     basic_response(@user, :ok, @user.update(user_params))
-    # end
     
     def destroy
         @user.destroy

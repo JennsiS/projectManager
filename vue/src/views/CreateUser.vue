@@ -28,6 +28,7 @@ export default {
       axios
         .post(`${baseURL}/users.json`, { user: newUser })
         .then((res) => {
+          console.log(res);
           this.success = true;
           this.newUserId = res.data.id;
 
